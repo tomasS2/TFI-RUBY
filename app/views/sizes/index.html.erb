@@ -1,0 +1,16 @@
+<p style="color: green"><%= notice %></p>
+
+<% content_for :title, "Sizes" %>
+
+<h1>Sizes</h1>
+
+<div id="sizes">
+  <% @sizes.each do |size| %>
+    <%= render size %>
+    <p>
+      <%= link_to "Show this size", size %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New size", new_size_path %>
