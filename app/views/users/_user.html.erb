@@ -1,0 +1,21 @@
+<div id="<%= dom_id user %>">
+  <p>
+    <strong>Nombre de usuario:</strong>
+    <%= user.username %>
+  </p>
+  <p>
+    <strong>Correo electrónico:</strong>
+    <%= user.email %>
+  </p>
+  <p>
+    <strong>Número de teléfono:</strong>
+    <%= user.phone_number %>
+  </p>
+  <p>
+    <strong>Roles:</strong>
+    <% user.roles.each  do |rol| %>
+      <%= rol.name %>
+    <% end %>
+  </p>
+
+</div>
