@@ -1,9 +1,74 @@
-# This file should ensure the existence of records required to run the application in every environment (production,
-# development, test). The code here should be idempotent so that it can be executed at any point in every environment.
-# The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
-#
-# Example:
-#
-#   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
-#     MovieGenre.find_or_create_by!(name: genre_name)
-#   end
+puts "Borrando usuarios y roles..."
+
+User.find_each do |user|
+    user.roles.clear
+  end
+User.delete_all
+Role.delete_all
+
+puts "Usuarios y roles borrados"
+
+puts "Creando roles"
+
+admin = Role.create!(
+    id: 1,
+    name: "admin",
+)
+
+manager = Role.create!(
+    id: 2,
+    name: "manager",
+)
+
+employee = Role.create!(
+    id: 3,
+    name: "employee",
+)
+
+
+puts "Creando admin"
+
+admin_user = User.create!(
+    email: 'admin@admin.com',
+    password: '123456',
+    username: 'admin',
+    phone_number: '221 123456',
+)
+admin_user.add_role(:admin) 
+
+
+puts "Creando manager"
+
+manager_user = User.create!(
+    email: 'manager@manager.com',
+    password: '123456',
+    username: 'manager',
+    phone_number: '221 123456',
+)
+manager_user.add_role(:manager)  
+
+
+puts "Creando empleado"
+ 
+employee_user = User.create!(
+    email: 'employee@employee.com',
+    password: '123456',
+    username: 'employee',
+    phone_number: '221 123456',
+)
+employee_user.add_role(:employee)  
+
+
+puts "Creando Superusuario"
+
+super_user = User.create!(
+    email: 'super@super.com',
+    password: '123456',
+    username: 'super',
+    phone_number: '221 123456',
+)
+super_user.add_role(:admin)  
+super_user.add_role(:manager)  
+super_user.add_role(:employee)  
+
+puts "Usuarios y roles creados"
