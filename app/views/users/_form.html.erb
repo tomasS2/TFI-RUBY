@@ -1,34 +1,62 @@
-<%= form_with(model: @user) do |form| %>
-  <% if @user.errors.any? %>
-    <div style="color: red">
-      <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
+<section class="gradient-custom">
+  <div class="container py-5 h-100">
+    <div class="row justify-content-center align-items-center h-100">
+      <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+        <div class="card shadow-2-strong card-registration" style="border-radius: 15px;">
+          <div class="card-body p-3 p-md-4">
+            <h3 class="mb-4 pb-2 pb-md-0 mb-md-4">Editar usuario</h3>
+              <%= form_with(model: @user, url: app_user_path, method: :put) do |form| %>
+                <% if @user.errors.any? %>
+                  <div style="color: red">
+                    <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
+                    <ul>
+                      <% @user.errors.each do |error| %>
+                        <li><%= error.full_message %></li>
+                      <% end %>
+                    </ul>
+                  </div>
+                <% end %>
 
-      <ul>
-        <% @user.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
+                <div class="form-outline mb-3">
+                  <%= form.label :username, "Nombre de usuario", class: "form-label" %>
+                  <%= form.text_field :username, class: "form-control form-control-sm", placeholder: "Nombre de usuario" %>
+                </div>
+                
+                <div class="form-outline mb-3">
+                  <%= form.label :email, "Corre electrónico", class: "form-label" %>
+                  <%= form.email_field :email, class: "form-control form-control-sm" %>
+                </div>
+
+                <div class="form-outline mb-3">
+                  <%= form.label :phone_number, "Teléfono", class: "form-label" %>
+                  <%= form.text_field :phone_number, class: "form-control form-control-sm" %>
+                </div>
+
+                <div class="form-outline mb-3">
+                  <%= form.label :password, "Contraseña (opcional)", class: "form-label" %>
+                  <%= form.password_field :password, class: "form-control form-control-sm" %>
+                </div>
+
+                <div class="form-outline mb-3">
+                  <%= form.label :role, "Rol", class: "form-label" %><br />
+                  <% roles = current_user.has_role?(:admin) ? ['admin', 'manager', 'employee'] : ['manager', 'employee'] %>
+                  <% roles.each do |role| %>
+                    <div class="form-check">
+                      <%= check_box_tag 'user[role][]', role, @user.has_role?(role), class: 'form-check-input', id: "#{role}Role" %>
+                      <%= label_tag "#{role}Role", role.capitalize, class: 'form-check-label' %>
+                    </div>
+                  <% end %>
+              </div>
+              
+
+                <div class="mt-3 pt-2 d-flex justify-content-between">
+                  <%= link_to "Volver a usuarios", app_users_path, class: "btn btn-danger btn-sm w-20" %>
+                  <%= form.submit "Confirmar cambios", class: "btn btn-primary btn-sm w-20" %>
+                </div>
+              <% end %>
+          </div>
+        </div>
+      </div>
     </div>
-  <% end %>
-
-  <div>
-    <%= form.label :username, style: "display: block" %>
-    <%= form.text_field :username, placeholder: "Nombre de usuario" %>
   </div>
-  <div>
-    <%= form.label :email, style: "display: block" %>
-    <%= form.email_field :email %>
-  </div>
-  <div>
-    <%= form.label :phone_number, style: "display: block" %>
-    <%= form.text_field :phone_number %>
-  </div>
-  <div>
-    <%= form.label :password, style: "display: block" %>
-    <%= form.password_field :password %>
-  </div>
-
-  <div>
-    <%= form.submit %>
-  </div>
-<% end %>
+</section>

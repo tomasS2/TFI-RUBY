@@ -19,7 +19,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
     if resource.save
       assign_role(resource)
       flash[:notice] = 'Se ha creado el usuario.'
-      redirect_to root_path and return
+      redirect_to app_users_path and return
     else
       render :new
     end
@@ -28,10 +28,16 @@ class Users::RegistrationsController < Devise::RegistrationsController
   protected
 
     def assign_role(user)
-      if current_user.has_role?(:admin)
-        user.add_role(params[:user][:role]) if %w[admin manager employee].include?(params[:user][:role])
-      elsif current_user.has_role?(:manager)
-        user.add_role(params[:user][:role]) if %w[manager employee].include?(params[:user][:role])
+      if !params[:user][:role].blank?
+        if current_user.has_role?(:admin)
+          params[:user][:role].each do |role|
+            user.add_role(role) if %w[admin manager employee].include?(role)
+          end
+        elsif current_user.has_role?(:manager)
+          params[:user][:role].each do |role|
+            user.add_role(role) if %w[manager employee].include?(role)
+          end
+        end
       end
     end
 

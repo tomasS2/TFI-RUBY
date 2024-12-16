@@ -1,16 +1,46 @@
 <p style="color: green"><%= notice %></p>
 
-<% content_for :title, "Usuarioas" %>
+<% content_for :title, "Usuarios" %>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Nombre de usuario</th>
+        <th scope="col">Correo</th>
+        <th scope="col">Estado</th>
+        <th scope="col">Roles</th>
+        <th scope="col">Acciones</th>
 
-<h1>Usuarios</h1>
+      </tr>
+    </thead>
+    <tbody>
+      <% @users.each do |user| %>
+        <tr>
+          <td><%= user.username %></td>
+          <td><%= user.email %></td>
+          <td><%= user.status %></td>
+          <td><%= user_roles(user) %></td>
+          <td>
+            <% if (user.roles.pluck(:name).include? "admin") %>
+              <% if current_user.has_role?(:admin) %>
+                <%= link_to "Editar usuario", edit_app_user_path(user) %>
+              <% end %>
+            <% else %>
+              <%= link_to "Editar usuario", edit_app_user_path(user) %>
+            <% end %>
+            <% if current_user != user && current_user.has_role?(:admin) %>
+              <% if user.status == 'active' %>
+                <%= link_to "Desactivar usuario", deactivate_app_user_path(user), method: :get %>
+              <% else %>
+                <%= link_to "Activar usuario", update_password_activate_app_user_path(user), method: :get %>
+              <% end %>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
 
-<div id="sizes">
-  <% @users.each do |user| %>
-    <%= render user %>
-    <p>
-      <%= link_to "Ver usuario", user %>
-    </p>
-  <% end %>
-</div>
+  </table>
 
-<%= link_to "Nuevo usuario", new_user_path %>
+
+<%= link_to "Nuevo usuario", new_user_registration_path %>
+
