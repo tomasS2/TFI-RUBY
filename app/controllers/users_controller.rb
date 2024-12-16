@@ -34,16 +34,33 @@ class UsersController < ApplicationController
     
 
     def update
+
+      if @user.has_any_role?(:admin, :manager, :employee)
+        @user.roles.each do |role|
+          params[:user][:role].delete(role.name)
+        end
+      end
+      agrego_rol = params[:user][:role].length > 0
       es_el_mismo = @user == current_user
       if user_params[:password].present?
         if @user.update(user_params)
           redirecciones_update(es_el_mismo)
+          if agrego_rol
+            params[:user][:role].each do |role|
+              @user.add_role(role) if %w[admin manager employee].include?(role)
+            end
+          end
         else
           redirecciones_update_error_validacion()
         end
       else
         if @user.update(user_params.except(:password))
           redirecciones_update(es_el_mismo)
+          if agrego_rol
+            params[:user][:role].each do |role|
+              @user.add_role(role) if %w[admin manager employee].include?(role)
+            end
+          end
         else
           redirecciones_update_error_validacion()
         end
