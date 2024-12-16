@@ -30,7 +30,7 @@ puts "Creando admin"
 
 admin_user = User.create!(
     email: 'admin@admin.com',
-    password: '123456',
+    password: '123123',
     username: 'admin',
     phone_number: '221 123456',
 )
@@ -41,7 +41,7 @@ puts "Creando manager"
 
 manager_user = User.create!(
     email: 'manager@manager.com',
-    password: '123456',
+    password: '123123',
     username: 'manager',
     phone_number: '221 123456',
 )
@@ -52,7 +52,7 @@ puts "Creando empleado"
  
 employee_user = User.create!(
     email: 'employee@employee.com',
-    password: '123456',
+    password: '123123',
     username: 'employee',
     phone_number: '221 123456',
 )
@@ -63,7 +63,7 @@ puts "Creando Superusuario"
 
 super_user = User.create!(
     email: 'super@super.com',
-    password: '123456',
+    password: '123123',
     username: 'super',
     phone_number: '221 123456',
 )
