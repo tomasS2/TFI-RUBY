@@ -27,17 +27,22 @@
   </head>
 
   <body>
-    <div style="display:grid; min-height:100dvh; grid-template-rows: auto 1fr auto;">
-    
+  <div class="estructura-divida">
+   
       <header>
         <%=render "layouts/navbar"%>
       </header>
 
-      <main>
+      <main style="background-color: #E4E4E4">
+      <!-- ver donde pongo esto porque me mueve todo 
+      <p class="notice"><%= notice %></p>
+      <p class="alert"><%= alert %></p>
+      -->
+    
         <%= yield %>
       </main>
 
-      <footer class="flex-wrap align-items-center py-3" style="background-color: #f4e2c7;">
+      <footer class="flex-wrap align-items-center py-3">
         <div class="d-flex align-items-center justify-content-center mb-3 mb-md-0 link-dark text-decoration-none">
           <p class="bi me-2 color-letra">Tomás Ilid - TTPS Ruby 2024<p>
         </div>

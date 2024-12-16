@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg" style="background-color: #f4e2c7;">
+<nav class="navbar navbar-expand-lg" style="background-color: white;">
     <div class="container-fluid" style="padding-left: 3%; padding-right: 3%;">
         <a class="navbar-brand color-letra" href=<%= root_path %>>
             Avivas
@@ -9,6 +9,7 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <div class="navbar-nav ms-auto">
                 <ul class="navbar-nav navbar-right me-auto mb-2 mb-lg-0">
+
                     <li class="nav-item active">
                         <a class="nav-link color-letra" href=<%= products_path %>>Calzado</a>
                     </li>
@@ -35,8 +36,28 @@
                 <button class="btn btn-outline-success my-2 my-sm-0 ms-2" type="submit">Buscar</button>
             </form>
             <div>
-                iniciar sesión
+                <% if current_user %> 
+                    <div class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <%= current_user.username %>
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href=<%= new_product_path %>>Agregar producto</a>
+                            <a class="dropdown-item" href="#">Agregar venta</a>
+                            <% if current_user.has_any_role?(:admin, :manager) %> 
+                                <a class="dropdown-item" href=<%= app_users_path %>> Usuarios </a>
+                             <% end %>
+                        <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href=<%= destroy_user_session_path %> role="button">Cerrar sesión</a>
+                        </div>
+                    </div>
+                
+                <% else %>
+                    <a class="btn btn-primary" href=<%= new_user_session_path %> role="button">Iniciar sesión</a>
+
+                <% end %>
             </div>
+
         </div>
     </div>
 </nav>
