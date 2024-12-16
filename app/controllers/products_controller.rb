@@ -12,48 +12,67 @@ class ProductsController < ApplicationController
 
   # GET /products/new
   def new
-    @product = Product.new
+    if current_user && current_user.has_any_role?(:admin, :manager, :employee)
+      @product = Product.new
+    else
+      redirect_to root_path
+    end
   end
 
   # GET /products/1/edit
+
+  ##HACER Q NECESITE PERMISOS
   def edit
   end
 
   # POST /products or /products.json
   def create
-    @product = Product.new(product_params)
+    if current_user && current_user.has_any_role?(:admin, :manager, :employee)
+      @product = Product.new(product_params)
 
-    respond_to do |format|
-      if @product.save
-        format.html { redirect_to @product, notice: "Product was successfully created." }
-        format.json { render :show, status: :created, location: @product }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @product.errors, status: :unprocessable_entity }
+      respond_to do |format|
+        if @product.save
+          format.html { redirect_to @product, notice: "Product was successfully created." }
+          format.json { render :show, status: :created, location: @product }
+        else
+          format.html { render :new, status: :unprocessable_entity }
+          format.json { render json: @product.errors, status: :unprocessable_entity }
+        end
       end
+    else
+      redirect_to root_path
     end
   end
 
   # PATCH/PUT /products/1 or /products/1.json
   def update
-    respond_to do |format|
-      if @product.update(product_params)
-        format.html { redirect_to @product, notice: "Product was successfully updated." }
-        format.json { render :show, status: :ok, location: @product }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @product.errors, status: :unprocessable_entity }
+    if current_user && current_user.has_any_role?(:admin, :manager, :employee)
+
+      respond_to do |format|
+        if @product.update(product_params)
+          format.html { redirect_to @product, notice: "Product was successfully updated." }
+          format.json { render :show, status: :ok, location: @product }
+        else
+          format.html { render :edit, status: :unprocessable_entity }
+          format.json { render json: @product.errors, status: :unprocessable_entity }
+        end
       end
+    else  
+      redirect_to root_path
     end
   end
 
   # DELETE /products/1 or /products/1.json
   def destroy
-    @product.destroy!
+    if current_user && current_user.has_any_role?(:admin, :manager, :employee)
+      @product.destroy!
 
-    respond_to do |format|
-      format.html { redirect_to products_path, status: :see_other, notice: "Product was successfully destroyed." }
-      format.json { head :no_content }
+      respond_to do |format|
+        format.html { redirect_to products_path, status: :see_other, notice: "Product was successfully destroyed." }
+        format.json { head :no_content }
+      end
+    else  
+      redirect_to root_path
     end
   end
 
