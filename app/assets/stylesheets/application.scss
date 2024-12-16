@@ -3,3 +3,46 @@
 .color-letra {
     color: black;
 }
+
+.navbar a {
+    font-family: Helvetica, Arial, sans-serif;
+  }
+
+.estructura-divida{
+    display:grid; 
+    min-height:100dvh; 
+    grid-template-rows: auto 1fr auto;
+}
+
+
+.custom-image {
+    width: 100%;
+    height: auto; /* Mantiene la proporción original de la imagen */
+    max-height: 400px; /* Ajusta este valor a la altura que prefieras */
+    object-fit: cover; /* Cubre el contenedor sin distorsionar la imagen */
+  }
+
+
+.notice:empty, .alert:empty {
+  display: none; 
+}
+
+.notice {
+  background-color: #dff0d8;
+  border-color: #d6e9c6;
+  color: #3c763d;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+}
+
+.alert {
+  background-color: #f2dede;
+  border-color: #ebccd1;
+  color: #a94442;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+}
