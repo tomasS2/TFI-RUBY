@@ -35,19 +35,34 @@ class UsersController < ApplicationController
 
     def update
 
-      if @user.has_any_role?(:admin, :manager, :employee)
-        @user.roles.each do |role|
-          params[:user][:role].delete(role.name)
-        end
-      end
-      agrego_rol = params[:user][:role].length > 0
+      ###refactorizar
+
       es_el_mismo = @user == current_user
       if user_params[:password].present?
         if @user.update(user_params)
           redirecciones_update(es_el_mismo)
-          if agrego_rol
+          #agrega los roles que se seleccionaron
+          if !params[:user][:role].blank?
             params[:user][:role].each do |role|
               @user.add_role(role) if %w[admin manager employee].include?(role)
+            end
+          end
+          #itera en los roles del usuario y elimina los que no fueron seleccionados
+          roles_actuales = @user.roles
+          if !roles_actuales.blank?
+            if params[:user][:role].blank?
+              @user.roles.each do |role|
+                @user.remove_role(role.name) 
+              end
+            else
+              roles_actuales.each do |role|
+                if !params[:user][:role].include?(role.name)
+                  puts "entree"
+                  puts @user.roles
+                  @user.remove_role(role.name)
+                  puts @user.roles
+                end
+              end
             end
           end
         else
@@ -56,9 +71,28 @@ class UsersController < ApplicationController
       else
         if @user.update(user_params.except(:password))
           redirecciones_update(es_el_mismo)
-          if agrego_rol
+          #agrega roles
+          if !params[:user][:role].blank?
             params[:user][:role].each do |role|
               @user.add_role(role) if %w[admin manager employee].include?(role)
+            end
+          end
+          #itera en los roles del usuario y elimina los que no fueron seleccionados
+          roles_actuales = @user.roles
+          if !roles_actuales.blank?
+            if params[:user][:role].blank?
+              @user.roles.each do |role|
+                @user.remove_role(role.name) 
+              end
+            else
+              roles_actuales.each do |role|
+                if !params[:user][:role].include?(role.name)
+                  puts "entree"
+                  puts @user.roles
+                  @user.remove_role(role.name)
+                  puts @user.roles
+                end
+              end
             end
           end
         else
