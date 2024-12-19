@@ -16,9 +16,8 @@ Rails.application.routes.draw do
     sessions: 'users/sessions', 
     passwords: 'users/passwords', 
   }
-  resources :sizes
-  
-  resources :categories
+  #resources :sizes
+  #resources :categories
 
   resources :products
 

@@ -52,12 +52,45 @@ es:
       send_paranoid_instructions: "Si tu cuenta existe, recibirás un correo electrónico con las instrucciones para desbloquearla en unos minutos."
       unlocked: "Tu cuenta ha sido desbloqueada exitosamente. Por favor, inicia sesión para continuar."
   errors:
+    format: "%{message}" 
     messages:
       already_confirmed: "ya fue confirmada, por favor intenta iniciar sesión"
       confirmation_period_expired: "necesita ser confirmada dentro de %{period}, por favor solicita una nueva"
       expired: "ha expirado, por favor solicita una nueva"
       not_found: "no encontrada"
       not_locked: "no estaba bloqueada"
+      record_invalid: "registro inválido"
       not_saved:
         one: "1 error prohibió que este %{resource} se guardara:"
         other: "%{count} errores prohibieron que este %{resource} se guardara:"
+  activerecord:
+    errors:
+      models:
+        user:
+          attributes:
+            email:
+              blank: "El campo de correo electrónico no puede estar vacío."
+              invalid: "El formato del correo electrónico no es válido."
+            password:
+              blank: "El campo de contraseña no puede estar vacío."
+              too_short: "La contraseña es demasiado corta (mínimo %{count} caracteres)."
+            username:
+              blank: "El campo de nombre de usuario no puede estar vacío."
+            phone_number:
+              blank: "El campo de número de teléfono no puede estar vacío"
+        product:
+          attributes:
+            category:
+              required: "Debe ingesar una categoría válida"
+            name:
+              blank: "El campo nombre no puede estar vacío"
+            price:
+              blank: "El campo del precio no puede estar vacío"
+            images:
+              blank: "Debe adjuntar una imagen del producto"
+              
+
+      messages:
+        blank: "No puede estar vacío."
+        taken: "Ya ha sido tomado."
+         

@@ -10,6 +10,8 @@ Rails.application.configure do
   config.eager_load = false
 
   # Show full error reports.
+
+  #en produccion está en false, y se verían las vistas 404, etc
   config.consider_all_requests_local = true
 
   # Enable server timing.
