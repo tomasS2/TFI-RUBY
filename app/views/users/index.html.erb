@@ -17,7 +17,11 @@
           <tr>
             <td><%= user.username %></td>
             <td><%= user.email %></td>
-            <td><%= user.status %></td>
+            <% if user.status == 'active' %>
+              <td>Activo</td>
+            <% else %>
+              <td>Inactivo</td>
+            <% end %>
             <td><%= user_roles(user) %></td>
             <td>
               <% if (user.roles.pluck(:name).include? "admin") %>

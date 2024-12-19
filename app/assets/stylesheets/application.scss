@@ -46,3 +46,12 @@
   border: 1px solid transparent;
   border-radius: 4px;
 }
+
+
+.producto-imagen {
+  height: 300px;  
+  object-fit: cover;  
+  width: 100%;  
+  object-position: center; 
+
+}

@@ -1,10 +1,15 @@
 <p style="color: green"><%= notice %></p>
 
 <%= render @product %>
-
 <div>
-  <%= link_to "Edit this product", edit_product_path(@product) %> |
-  <%= link_to "Back to products", products_path %>
+<% if current_user && current_user.has_any_role?(:admin, :manager, :employee) %>
+  <%= link_to "Editar producto", edit_product_path(@product) %> 
+<% end %>
 
-  <%= button_to "Destroy this product", @product, method: :delete %>
+
+<!-- 
+<%= link_to "Volver a los productos", products_path %>
+#ver el eliminar
+<%= button_to "Eliminar producto", @product, method: :delete %>
+-->
 </div>
