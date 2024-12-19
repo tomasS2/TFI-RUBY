@@ -1,5 +1,6 @@
 class ProductsController < ApplicationController
   before_action :set_product, only: %i[ show edit update destroy ]
+  before_action :authenticate_user!, only: %i[ create edit update destroy ] 
 
   # GET /products or /products.json
   def index
@@ -21,7 +22,6 @@ class ProductsController < ApplicationController
 
   # GET /products/1/edit
 
-  ##HACER Q NECESITE PERMISOS
   def edit
   end
 
@@ -46,19 +46,19 @@ class ProductsController < ApplicationController
 
   # PATCH/PUT /products/1 or /products/1.json
   def update
-    if current_user && current_user.has_any_role?(:admin, :manager, :employee)
-
-      respond_to do |format|
-        if @product.update(product_params)
-          format.html { redirect_to @product, notice: "Product was successfully updated." }
-          format.json { render :show, status: :ok, location: @product }
-        else
-          format.html { render :edit, status: :unprocessable_entity }
-          format.json { render json: @product.errors, status: :unprocessable_entity }
-        end
+    respond_to do |format|
+      if params[:product][:images] == [""]
+        puts params
+        params[:product].delete(:images)
+        puts params
       end
-    else  
-      redirect_to root_path
+      if @product.update(product_params)
+        format.html { redirect_to @product, notice: "Product was successfully updated." }
+        format.json { render :show, status: :ok, location: @product }
+      else
+        format.html { render :edit, status: :unprocessable_entity }
+        format.json { render json: @product.errors, status: :unprocessable_entity }
+      end
     end
   end
 
@@ -84,6 +84,6 @@ class ProductsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def product_params
-      params.expect(product: [ :name, :description, :price, :stock, :colour, :category_id ])
+      params.expect(product: [ :name, :description, :price, :stock, :colour, :category_id, images: [] ])
     end
 end

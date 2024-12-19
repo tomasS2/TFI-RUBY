@@ -1,10 +1,17 @@
 # frozen_string_literal: true
 
 class Users::RegistrationsController < Devise::RegistrationsController
+
+  #permite que los usuarios autenticados accedan a las páginas de registro (xq ellos crean a los otros usuarios)
   skip_before_action :require_no_authentication, only: [:new, :create]
+
+
   before_action :configure_sign_up_params, only: [:create]
   before_action :configure_account_update_params, only: [:update]
+
+  #verifica si el usuario cuenta con los roles para crear otro usuario (debe tener admin o manager)
   before_action :authorize_role_assignment, only: [:new, :create]
+
 
   def new
     if current_user
@@ -48,16 +55,11 @@ class Users::RegistrationsController < Devise::RegistrationsController
     def configure_account_update_params
       devise_parameter_sanitizer.permit(:account_update, keys: [:username, :phone_number, :role])
     end
+    
     def authorize_role_assignment
       unless !current_user || current_user.has_role?(:admin) || current_user.has_role?(:manager)
-        redirect_to root_path, alert: 'No podes crear usuarios'
+        redirect_to root_path, alert: 'No cuentas con el rol para poder crear usuarios'
       end
     end
 
-    #ver si este se llega a ejecutar
-    def redirect_if_not_authorized 
-      unless current_user&.has_role?(:admin) || current_user&.has_role?(:manager) 
-        redirect_to root_path, alert: 'No tienes los permisos para acceder'
-      end
-    end
 end
