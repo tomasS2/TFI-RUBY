@@ -20,17 +20,18 @@ class UsersController < ApplicationController
     end
 
     def create
-        @user = User.new(user_params)
-        respond_to do |format|
-          if @user.save
-            format.html { redirect_to @user, notice: "El usuario fue creado satisfactoriamente." }
-            format.json { render :show, status: :created, location: @user }
-          else
-            format.html { render :new, status: :unprocessable_entity }
-            format.json { render json: @user.errors, status: :unprocessable_entity }
-          end
+      @user = User.new(user_params)
+      respond_to do |format|
+        if @user.save
+          assign_role(@user)
+          format.html { redirect_to app_users_path, notice: "El usuario fue creado satisfactoriamente." }
+          format.json { render :show, status: :created, location: @user }
+        else
+          format.html { render :new, status: :unprocessable_entity }
+          format.json { render json: @user.errors, status: :unprocessable_entity }
         end
       end
+    end
     
 
     def update
@@ -149,12 +150,28 @@ class UsersController < ApplicationController
 
 
     private
+      def assign_role(user)
+        if !params[:user][:role].blank?
+          if current_user.has_role?(:admin)
+            params[:user][:role].each do |role|
+              user.add_role(role) if %w[admin manager employee].include?(role)
+            end
+          elsif current_user.has_role?(:manager)
+            params[:user][:role].each do |role|
+              user.add_role(role) if %w[manager employee].include?(role)
+            end
+          end
+        end
+      end
+
+
+
       def set_user
         @user = User.find(params.expect(:id))
       end
 
       def user_params
-        params.expect(user: [ :name, :username, :email, :phone_number, :password ])
+        params.expect(user: [ :name, :username, :email, :phone_number, :password, :role ])
       end
 
       def user_roles(user)
