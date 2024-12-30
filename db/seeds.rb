@@ -133,7 +133,6 @@ campera = Product.new(
     name: "Campera adidas",
     description: "Diseñada para el frío",
     price: 100,
-    stock: 123,
     colour: "Rojo",
     category_id: 3,
   )
@@ -150,7 +149,6 @@ pantalon = Product.new(
     name: "Pantalón adidas",
     description: "Diseñada para las piernas",
     price: 200,
-    stock: 5,
     colour: "Negro",
     category_id: 2,
   )
@@ -168,7 +166,6 @@ zapatilla = Product.new(
     name: "Zapatillas adidas",
     description: "Diseñada para los pies",
     price: 500,
-    stock: 2,
     colour: "Celeste",
     category_id: 1,
   )

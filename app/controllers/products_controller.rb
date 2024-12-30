@@ -25,7 +25,6 @@ class ProductsController < ApplicationController
 
   def edit
     @categories = Category.all
-    puts "aca si"
   end
 
   # POST /products or /products.json
@@ -33,12 +32,12 @@ class ProductsController < ApplicationController
     if current_user && current_user.has_any_role?(:admin, :manager, :employee)
       @product = Product.new(product_params.except(:product_sizes))
       @categories = Category.all
-      @product.stock = -1 if product_params[:stock].blank? #para usar como flag
+      @product.has_size = product_params[:stock].blank? ? true : false
 
       respond_to do |format|
         if @product.save
-          if product_params[:stock].blank?
-            stock_sizes(product_params, params, @product.id)
+          if @product.has_size
+            stock_sizes(params[:product][:product_sizes], @product.id)
           end
           format.html { redirect_to @product, notice: "El producto fue creado" }
           format.json { render :show, status: :created, location: @product }
@@ -55,23 +54,24 @@ class ProductsController < ApplicationController
   # PATCH/PUT /products/1 or /products/1.json
   def update
     @categories = Category.all
-    puts "tamo?"
-    @product.stock = -1 if product_params[:stock].blank? #para usar como flag
+    @product.has_size = product_params[:stock].blank? ? true : false
     respond_to do |format|
       if params[:product][:images] == [""]
         puts params
         params[:product].delete(:images)
         puts params
       end
-      puts "afuera"
 
       if @product.update(product_params)
-        puts "ENTRE"
-        puts product_params[:stock].blank?
 
-        if product_params[:stock].blank?
-          stock_sizes(product_params, params, @product.id)
+        if @product.has_size
+          stock_sizes(params[:product][:product_sizes_attributes], @product.id)
+        ##hacer un else y preguntar si tiene registros en la tabla product_sizes y borrarrlos
+  
+
+        
         end
+
         format.html { redirect_to @product, notice: "El producto se actualizó correctamente" }
         format.json { render :show, status: :ok, location: @product }
       else
@@ -106,20 +106,22 @@ class ProductsController < ApplicationController
       params.expect(product: [ :name, :description, :price, :stock, :colour, :category_id, images: [], product_sizes: [:size_id, :product_size_stock ] ])
     end
 
-    def stock_sizes(parametros_producto, parametros_globales, id_producto)
-      puts "lala"
-      puts parametros_producto
-      puts "lolo"
-      puts parametros_globales
-
-      if parametros_globales[:product][:product_sizes]
-        parametros_globales[:product][:product_sizes].each do |size_data|
+    def stock_sizes(product_sizes, id_producto)
+      if product_sizes
+        product_sizes.each do |size_data|
           next if size_data[:product_size_stock].blank?
-          ProductSize.create!(
-            product_id: id_producto,
-            size_id: size_data[:size_id],
-            product_size_stock: size_data[:product_size_stock],
-          )
+          if ProductSize.exists?(size_id: size_data[:size_id], product_id: id_producto)
+            product_size_edit = ProductSize.find_by(product_id: id_producto, size_id: size_data[:size_id])
+            if product_size_edit.product_size_stock != size_data[:product_size_stock].to_i
+              ProductSize.where(product_id: id_producto, size_id: size_data[:size_id]).update_all(product_size_stock: size_data[:product_size_stock].to_i)
+            end
+          else
+            ProductSize.create!(
+              product_id: id_producto,
+              size_id: size_data[:size_id],
+              product_size_stock: size_data[:product_size_stock],
+            )
+          end
         end
       end
     end
