@@ -66,10 +66,10 @@ class ProductsController < ApplicationController
 
         if @product.has_size
           stock_sizes(params[:product][:product_sizes_attributes], @product.id)
-        ##hacer un else y preguntar si tiene registros en la tabla product_sizes y borrarrlos
-  
-
-        
+        else  
+          if @product.product_sizes
+            ProductSize.where(product_id: @product.id).delete_all
+          end
         end
 
         format.html { redirect_to @product, notice: "El producto se actualizó correctamente" }
