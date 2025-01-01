@@ -23,6 +23,10 @@ Rails.application.routes.draw do
     collection do 
       get :index_administration
     end
+    member do 
+      get :show_stock
+      patch :modify_stock
+    end
   end
 
   root "home#index"

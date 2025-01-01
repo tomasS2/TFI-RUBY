@@ -6,12 +6,18 @@
       <thead>
         <tr>
           <th scope="col">Nombre del producto</th>
+          <th scope="col">Acciones</th>
         </tr>
       </thead>
       <tbody>
         <% @products.each do |product| %>
           <tr>
             <td><%= product.name %></td>
+            <td>
+              <%= link_to "Editar producto", edit_product_path(product) %>
+              <%= link_to "Modificar stock", show_stock_product_path(product), method: :get %>
+              eliminar
+            </td>
           </tr>
         <% end %>
       </tbody>
