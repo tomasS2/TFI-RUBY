@@ -19,7 +19,11 @@ Rails.application.routes.draw do
   #resources :sizes
   #resources :categories
 
-  resources :products
+  resources :products do 
+    collection do 
+      get :index_administration
+    end
+  end
 
   root "home#index"
 end

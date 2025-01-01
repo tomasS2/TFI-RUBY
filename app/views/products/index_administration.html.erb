@@ -1,0 +1,21 @@
+<p style="color: green"><%= notice %></p>
+
+<% content_for :title, "Usuarios" %>
+  <div class="m-4">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Nombre del producto</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @products.each do |product| %>
+          <tr>
+            <td><%= product.name %></td>
+          </tr>
+        <% end %>
+      </tbody>
+
+    </table>
+    <%= link_to "Nuevo producto", new_product_path, class: "btn btn-success mt-3" %>
+  </div>

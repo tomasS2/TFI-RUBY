@@ -7,8 +7,15 @@ class ProductsController < ApplicationController
     @products = Product.all
   end
 
+
+  def index_administration
+    @products = Product.all
+  end
+
   # GET /products/1 or /products/1.json
   def show
+    @product = Product.find(params[:id])
+
   end
 
   # GET /products/new

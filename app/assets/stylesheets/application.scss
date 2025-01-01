@@ -55,3 +55,7 @@
   object-position: center; 
 
 }
+
+.card:hover .stock-info {
+  display: flex !important; 
+}
