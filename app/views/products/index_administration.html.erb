@@ -5,6 +5,7 @@
     <table class="table">
       <thead>
         <tr>
+          <th scope="col">#</th>
           <th scope="col">Nombre del producto</th>
           <th scope="col">Acciones</th>
         </tr>
@@ -12,6 +13,7 @@
       <tbody>
       <% @products.each do |product| %>
         <tr>
+          <td><%= product.id %></td>
           <td><%= product.name %></td>
           <td class="d-flex gap-2">
             <%= link_to "Editar producto", edit_product_path(product), class: "btn btn-primary" %>

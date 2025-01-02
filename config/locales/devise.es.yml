@@ -86,10 +86,13 @@ es:
               blank: "El campo nombre no puede estar vacío"
             price:
               blank: "El campo del precio no puede estar vacío"
+              not_a_number: "El precio debe ser un número"
             description:
               blank: "El campo de descripción no puede estar vacío"
             images:
               blank: "Debe adjuntar una imagen del producto"
+            stock:
+              greater_than_or_equal_to: "El stock debe ser mayor o igual a 0"
               
 
       messages:

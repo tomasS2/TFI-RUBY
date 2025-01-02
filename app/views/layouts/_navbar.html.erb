@@ -46,9 +46,9 @@
                     <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                     <a class="dropdown-item" href="#">Agregar venta</a>
                     <a class="dropdown-item" href=<%= index_administration_products_path %>>Productos</a>
-                        <% if current_user.has_any_role?(:admin, :manager) %> 
-                            <a class="dropdown-item" href=<%= app_users_path %>> Usuarios </a>
-                            <% end %>
+                    <% if current_user.has_any_role?(:admin, :manager) %> 
+                        <a class="dropdown-item" href=<%= app_users_path %>> Usuarios </a>
+                    <% end %>
                     <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href=<%= destroy_user_session_path %> role="button">Cerrar sesión</a>
                     </div>

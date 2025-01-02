@@ -1,5 +1,5 @@
 class ProductsController < ApplicationController
-  before_action :set_product, only: %i[ show edit update destroy ]
+  before_action :set_product, only: %i[ show edit update destroy soft_delete ]
   before_action :authenticate_user!, only: %i[ create edit update destroy index_administration ] 
 
   # GET /products or /products.json
@@ -14,8 +14,6 @@ class ProductsController < ApplicationController
 
   # GET /products/1 or /products/1.json
   def show
-    @product = Product.find(params[:id])
-
   end
 
   # GET /products/new
@@ -88,9 +86,7 @@ class ProductsController < ApplicationController
 
 
     
-  def soft_delete
-    @product = Product.find(params[:id])
-    puts "aca"
+  def soft_delete 
     @product.delete_date = DateTime.now
     if @product.save
       if @product.product_sizes.any?

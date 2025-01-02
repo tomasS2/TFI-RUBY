@@ -1,6 +1,11 @@
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
-    <li class="breadcrumb-item"><%= link_to "Productos", products_path %></li>
+    <% if current_user && current_user.has_any_role?(:admin, :manager, :employee)%>
+      <li class="breadcrumb-item"><%= link_to "Productos", index_administration_products_path %></li>
+    <% else %>
+      <li class="breadcrumb-item"><%= link_to "Productos", products_path %></li>
+    <% end %>
+
     <li class="breadcrumb-item active" aria-current="page"><%= product.name %></li>
   </ol>
 </nav>
