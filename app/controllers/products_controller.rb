@@ -1,15 +1,15 @@
 class ProductsController < ApplicationController
   before_action :set_product, only: %i[ show edit update destroy ]
-  before_action :authenticate_user!, only: %i[ create edit update destroy ] 
+  before_action :authenticate_user!, only: %i[ create edit update destroy index_administration ] 
 
   # GET /products or /products.json
   def index
-    @products = Product.all
+    @products = Product.where(delete_date: nil)  
   end
 
 
   def index_administration
-    @products = Product.all
+    @products = Product.where(delete_date: nil) 
   end
 
   # GET /products/1 or /products/1.json
@@ -98,6 +98,9 @@ class ProductsController < ApplicationController
       else
         @product.update_column(:stock, 0)
       end
+      redirect_to index_administration_products_path, notice: "El producto fue eliminado correctamente"
+    else
+      redirect_to index_administration_products_path, alert: "Hubo un error al intentar eliminar el producto"
     end
   end
 

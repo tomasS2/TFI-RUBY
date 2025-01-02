@@ -27,8 +27,8 @@
       <h1><%= product.name %></h1>
       <h5><%= product.description %></h5>
       <p class="display-4 text-success">$<%= product.price %></p>
-      <h5>Talles</h5>
       <% if product.product_sizes.any? %>
+        <h5>Talles</h5>
         <div class="row">
           <% product.product_sizes.each do |product_size| %>
             <div class="col-6 col-sm-4 col-md-2 mb-2">
@@ -44,7 +44,7 @@
           <% end %>
         </div>
       <% else %>
-        <%= product.stock %>
+        <p><strong>Stock:</strong>  <%= product.stock %></p>
       <% end %>
       <p><strong>Color:</strong> <%= product.colour %></p>
     </div>

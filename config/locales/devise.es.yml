@@ -86,6 +86,8 @@ es:
               blank: "El campo nombre no puede estar vacío"
             price:
               blank: "El campo del precio no puede estar vacío"
+            description:
+              blank: "El campo de descripción no puede estar vacío"
             images:
               blank: "Debe adjuntar una imagen del producto"
               
