@@ -105,60 +105,25 @@ class ProductsController < ApplicationController
   end
 
   def modify_stock
+    ##hacer validaciones en el modelo por si no ingresa ningun valor
     @product = Product.find(params[:id])
     
-    ##hacer validaciones en el modelo por si no ingresa ningun valor
-    # Verificar si el producto tiene tamaños
     if @product.has_size
-      # Iterar sobre cada tamaño del producto
       params[:product][:product_sizes_attributes].each do |size_data|
+        
         product_size_edit = ProductSize.find_by(product_id: @product.id, size_id: size_data[:size_id])
-        puts "que sera 2"
-        puts size_data
-        puts product_size_edit
-        #puts product_size_edit.product_size_stock 
-        #puts size_data[:product][:product_sizes_attributes][:product_size_stock].to_i 
-        #puts product_size_edit.product_size_stock != size_data[:product][:product_sizes_attributes][:product_size_stock].to_i 
-        # Verificar si el stock ha cambiado
+
         if product_size_edit.product_size_stock != size_data[:product_size_stock].to_i
           product_size_edit.product_size_stock = size_data[:product_size_stock].to_i
-          puts "aca?"
-          # Validar el cambio antes de guardarlo
-          unless product_size_edit.valid?
-            # Si no es válido, devolver a la vista de edición con el mensaje de error
-            render :show_stock_path, alert: "Hubo un error al actualizar el stock del tamaño #{size_data[:size_id]}."
-            return
-          end
-  
-          # Guardar el cambio si es válido
-          puts "estoy"
-
-          ProductSize.where(product_id: @product.id, size_id: size_data[:size_id]).update_all(product_size_stock: size_data[:product_size_stock].to_i)
-          puts "llegue"
+          ProductSize.update_stock(@product.id, size_data[:size_id], size_data[:product_size_stock].to_i)
         end
       end
     else
-      # Si no tiene tamaños, actualizar el stock del producto
-      @product.stock = params[:stock]
-  
-      # Validar si el stock es válido
-      unless @product.valid?
-        # Si no es válido, devolver a la vista de edición con el mensaje de error
-        render :edit, alert: 'Hubo un error al actualizar el stock. Verifique el campo de stock.'
-        return
-      end
-  
-      # Guardar el cambio si es válido
-      @product.save!
+      new_stock = params[:product][:stock].blank? ? 0 : params[:product][:stock]
+      @product.update_column(:stock, new_stock)
     end
   
-    # Si todo salió bien, redirigir con un mensaje de éxito
     redirect_to index_administration_products_path, notice: 'El stock se actualizó correctamente.'
-  
-  rescue StandardError => e
-    # Manejar cualquier otro error inesperado y registrar el error
-    logger.error "Error al modificar el stock del producto #{@product.id}: #{e.message}"
-    redirect_to edit_product_path(@product), alert: 'Ocurrió un error al intentar actualizar el stock.'
   end
   
   
