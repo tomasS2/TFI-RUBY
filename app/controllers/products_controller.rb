@@ -39,11 +39,11 @@ class ProductsController < ApplicationController
     if current_user && current_user.has_any_role?(:admin, :manager, :employee)
       @product = Product.new(product_params.except(:product_sizes))
       @categories = Category.all
-      @product.has_size = product_params[:stock].blank? ? true : false
+      #@product.has_size = product_params[:stock].blank? ? true : false
 
       respond_to do |format|
         if @product.save
-          if @product.has_size
+          if product_params[:stock].blank?
             stock_sizes(params[:product][:product_sizes], @product.id)
           end
           format.html { redirect_to @product, notice: "El producto fue creado" }
@@ -61,7 +61,7 @@ class ProductsController < ApplicationController
   # PATCH/PUT /products/1 or /products/1.json
   def update
     @categories = Category.all
-    @product.has_size = product_params[:stock].blank? ? true : false
+    #@product.has_size = product_params[:stock].blank? ? true : false
     respond_to do |format|
       if params[:product][:images] == [""]
         params[:product].delete(:images)
@@ -69,7 +69,7 @@ class ProductsController < ApplicationController
 
       if @product.update(product_params)
 
-        if @product.has_size
+        if product_params[:stock].blank?
           stock_sizes(params[:product][:product_sizes_attributes], @product.id)
         else  
           if @product.product_sizes
@@ -85,6 +85,24 @@ class ProductsController < ApplicationController
       end
     end
   end
+
+
+    
+  def soft_delete
+    @product = Product.find(params[:id])
+    puts "aca"
+    @product.delete_date = DateTime.now
+    if @product.save
+      if @product.product_sizes.any?
+        ProductSize.stock_a_cero(@product.id)
+      else
+        @product.update_column(:stock, 0)
+      end
+    end
+  end
+
+
+
 
   # DELETE /products/1 or /products/1.json
   def destroy
@@ -105,27 +123,31 @@ class ProductsController < ApplicationController
   end
 
   def modify_stock
-    ##hacer validaciones en el modelo por si no ingresa ningun valor
     @product = Product.find(params[:id])
     
-    if @product.has_size
+    if @product.product_sizes.any?
+      #itero sobre los distintos talles con stock
       params[:product][:product_sizes_attributes].each do |size_data|
         
         product_size_edit = ProductSize.find_by(product_id: @product.id, size_id: size_data[:size_id])
 
+        #comparo el stock del talle quetengo guardado con el ingresado por parametro paraver si es nacesario actualizar
         if product_size_edit.product_size_stock != size_data[:product_size_stock].to_i
           product_size_edit.product_size_stock = size_data[:product_size_stock].to_i
           ProductSize.update_stock(@product.id, size_data[:size_id], size_data[:product_size_stock].to_i)
         end
       end
     else
-      new_stock = params[:product][:stock].blank? ? 0 : params[:product][:stock]
-      @product.update_column(:stock, new_stock)
+      #caso en el que el producto no tiene talles (se maneja con stock global
+      new_stock = params[:product][:stock].blank? ? 0 : params[:product][:stock].to_i
+      if @product.stock != new_stock
+        @product.update_column(:stock, new_stock)
+      end
     end
   
     redirect_to index_administration_products_path, notice: 'El stock se actualizó correctamente.'
   end
-  
+
   
   private
     # Use callbacks to share common setup or constraints between actions.

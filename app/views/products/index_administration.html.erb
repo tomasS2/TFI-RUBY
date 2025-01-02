@@ -10,17 +10,18 @@
         </tr>
       </thead>
       <tbody>
-        <% @products.each do |product| %>
-          <tr>
-            <td><%= product.name %></td>
-            <td>
-              <%= link_to "Editar producto", edit_product_path(product) %>
-              <%= link_to "Modificar stock", show_stock_product_path(product), method: :get %>
-              eliminar
-            </td>
-          </tr>
-        <% end %>
-      </tbody>
+      <% @products.each do |product| %>
+        <tr>
+          <td><%= product.name %></td>
+          <td class="d-flex gap-2">
+            <%= link_to "Editar producto", edit_product_path(product), class: "btn btn-primary" %>
+            <%= link_to "Modificar stock", show_stock_product_path(product), method: :get, class: "btn btn-warning" %>
+            <%= button_to "Eliminar Producto", soft_delete_product_path(product), method: :patch, class: "btn btn-danger" %>
+            <%= link_to "Ver producto", product_path(product), class: "btn btn-info" %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
 
     </table>
     <%= link_to "Nuevo producto", new_product_path, class: "btn btn-success mt-3" %>

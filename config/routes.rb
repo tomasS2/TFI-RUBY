@@ -26,6 +26,7 @@ Rails.application.routes.draw do
     member do 
       get :show_stock
       patch :modify_stock
+      patch :soft_delete
     end
   end
 

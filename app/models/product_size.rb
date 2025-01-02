@@ -9,4 +9,8 @@ class ProductSize < ApplicationRecord
     where(product_id: product_id, size_id: size_id).update_all(product_size_stock: new_stock)
   end
 
+  def self.stock_a_cero(product_id)
+    where(product_id: product_id).update_all(product_size_stock: 0)
+  end
+
 end
