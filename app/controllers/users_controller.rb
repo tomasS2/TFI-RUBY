@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
-    before_action :set_user, only: %i[ show edit update destroy ]
+    before_action :set_user, only: %i[ show edit update destroy deactivate activate update_password_activate]
     helper_method :user_roles
+    before_action :allowed_roles 
     before_action :authenticate_user! 
 
 
@@ -24,7 +25,7 @@ class UsersController < ApplicationController
       respond_to do |format|
         if @user.save
           assign_role(@user)
-          format.html { redirect_to app_users_path, notice: "El usuario fue creado satisfactoriamente." }
+          format.html { redirect_to app_users_path, notice: "El usuario fue creado exitosamente." }
           format.json { render :show, status: :created, location: @user }
         else
           format.html { render :new, status: :unprocessable_entity }
@@ -35,71 +36,22 @@ class UsersController < ApplicationController
     
 
     def update
-
-      ###refactorizar
-
       es_el_mismo = @user == current_user
-      if user_params[:password].present?
-        if @user.update(user_params)
-          redirecciones_update(es_el_mismo)
-          #agrega los roles que se seleccionaron
-          if !params[:user][:role].blank?
-            params[:user][:role].each do |role|
-              @user.add_role(role) if %w[admin manager employee].include?(role)
-            end
-          end
-          #itera en los roles del usuario y elimina los que no fueron seleccionados
-          roles_actuales = @user.roles
-          if !roles_actuales.blank?
-            if params[:user][:role].blank?
-              @user.roles.each do |role|
-                @user.remove_role(role.name) 
-              end
-            else
-              roles_actuales.each do |role|
-                if !params[:user][:role].include?(role.name)
-                  puts "entree"
-                  puts @user.roles
-                  @user.remove_role(role.name)
-                  puts @user.roles
-                end
-              end
-            end
-          end
-        else
-          redirecciones_update_error_validacion()
-        end
+      #si no se ingreso la pw para ser modificada, se actualizan los parametros sin el campo pw (en nil)
+      if !user_params[:password].present?
+        user_params_aux = user_params.except(:password) if user_params.present?
       else
-        if @user.update(user_params.except(:password))
-          redirecciones_update(es_el_mismo)
-          #agrega roles
-          if !params[:user][:role].blank?
-            params[:user][:role].each do |role|
-              @user.add_role(role) if %w[admin manager employee].include?(role)
-            end
-          end
-          #itera en los roles del usuario y elimina los que no fueron seleccionados
-          roles_actuales = @user.roles
-          if !roles_actuales.blank?
-            if params[:user][:role].blank?
-              @user.roles.each do |role|
-                @user.remove_role(role.name) 
-              end
-            else
-              roles_actuales.each do |role|
-                if !params[:user][:role].include?(role.name)
-                  puts "entree"
-                  puts @user.roles
-                  @user.remove_role(role.name)
-                  puts @user.roles
-                end
-              end
-            end
-          end
-        else
-          redirecciones_update_error_validacion()
-        end
-      end        
+        user_params_aux = user_params
+      end
+      if @user.update(user_params_aux)
+        #agrega los roles que se seleccionaron
+        @user.add_selected_roles(params[:user][:role])
+        #itera entre los roles del usuario y elimina los que no fueron seleccionados
+        @user.delete_unselected_roles(params[:user][:role])
+        redirecciones_update(es_el_mismo)
+      else  
+        redirecciones_update_error_validacion()
+      end
     end
 
 
@@ -112,23 +64,15 @@ class UsersController < ApplicationController
     end
 
     def deactivate
-      user = User.find(params[:id]) 
-      if current_user != user && current_user.has_role?(:admin) && user.status == 'active' 
-        user.update_column(:status, 'inactive')
-        new_password = SecureRandom.hex(10)
-        user.password = new_password
-        user.save
+      if current_user != @user && current_user.has_role?(:admin) && @user.status == 'active' 
+        @user.deactivate_user()
         redirect_to app_users_path, notice: 'El usuario ha sido desactivado correctamente.'
       end
     end
 
     def activate
-      @user = User.find(params[:id])
       if current_user != @user && current_user.has_role?(:admin) && @user.status != 'active' 
-        @user.password = params[:user][:password]
-        if @user.valid?(:update_password) 
-          @user.update_column(:status, 'active')
-          @user.save
+        if @user.activate_user(params[:user][:password])
           redirect_to app_users_path, notice: 'El usuario ha sido activado correctamente.' and return
         else
           render :update_password_activate_app_user
@@ -140,7 +84,6 @@ class UsersController < ApplicationController
     end
 
     def update_password_activate
-      @user = User.find(params[:id])
       if !(current_user != @user && current_user.has_role?(:admin) && @user.status != 'active')
         redirect_to app_users_path, alert: 'Este usuario ya está activo.'
       else  
@@ -164,7 +107,11 @@ class UsersController < ApplicationController
         end
       end
 
-
+      def allowed_roles()
+        if !current_user.has_any_role?(:admin, :manager)
+          redirect_to root_path
+        end
+      end
 
       def set_user
         @user = User.find(params.expect(:id))
