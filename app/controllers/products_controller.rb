@@ -1,5 +1,5 @@
 class ProductsController < ApplicationController
-  before_action :set_product, only: %i[ show edit update destroy soft_delete ]
+  before_action :set_product, only: %i[ show edit update destroy soft_delete show_stock modify_stock ]
   before_action :authenticate_user!, only: %i[ create edit update destroy index_administration ] 
 
   # GET /products or /products.json
@@ -42,7 +42,7 @@ class ProductsController < ApplicationController
       respond_to do |format|
         if @product.save
           if product_params[:stock].blank?
-            stock_sizes(params[:product][:product_sizes], @product.id)
+            @product.update_or_create_product_sizes(params[:product][:product_sizes])
           end
           format.html { redirect_to @product, notice: "El producto fue creado" }
           format.json { render :show, status: :created, location: @product }
@@ -68,10 +68,10 @@ class ProductsController < ApplicationController
       if @product.update(product_params)
 
         if product_params[:stock].blank?
-          stock_sizes(params[:product][:product_sizes_attributes], @product.id)
+          @product.update_or_create_product_sizes(params[:product][:product_sizes_attributes])
         else  
           if @product.product_sizes
-            ProductSize.where(product_id: @product.id).delete_all
+            @product.delete_product_sizes()
           end
         end
 
@@ -118,16 +118,14 @@ class ProductsController < ApplicationController
   end
 
   def show_stock
-    @product = Product.find(params[:id])
   end
 
   def modify_stock
-    @product = Product.find(params[:id])
     
     if @product.product_sizes.any?
       #itero sobre los distintos talles con stock
       params[:product][:product_sizes_attributes].each do |size_data|
-        
+        ##hacer en el modelo de product size esto de aca (hasta linea 135))
         product_size_edit = ProductSize.find_by(product_id: @product.id, size_id: size_data[:size_id])
 
         #comparo el stock del talle quetengo guardado con el ingresado por parametro paraver si es nacesario actualizar
@@ -159,23 +157,4 @@ class ProductsController < ApplicationController
       params.expect(product: [ :name, :description, :price, :stock, :colour, :category_id, images: [], product_sizes: [:size_id, :product_size_stock ] ])
     end
 
-    def stock_sizes(product_sizes, id_producto)
-      if product_sizes
-        product_sizes.each do |size_data|
-          next if size_data[:product_size_stock].blank?
-          if ProductSize.exists?(size_id: size_data[:size_id], product_id: id_producto)
-            product_size_edit = ProductSize.find_by(product_id: id_producto, size_id: size_data[:size_id])
-            if product_size_edit.product_size_stock != size_data[:product_size_stock].to_i
-              ProductSize.where(product_id: id_producto, size_id: size_data[:size_id]).update_all(product_size_stock: size_data[:product_size_stock].to_i)
-            end
-          else
-            ProductSize.create!(
-              product_id: id_producto,
-              size_id: size_data[:size_id],
-              product_size_stock: size_data[:product_size_stock],
-            )
-          end
-        end
-      end
-    end
 end
