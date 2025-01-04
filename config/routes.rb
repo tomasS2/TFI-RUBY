@@ -16,6 +16,8 @@ Rails.application.routes.draw do
     sessions: 'users/sessions', 
     passwords: 'users/passwords', 
   }
+
+  #esto hay que habilitarlo.
   #resources :sizes
   #resources :categories
 
@@ -30,5 +32,6 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :sales
   root "home#index"
 end
