@@ -37,5 +37,21 @@ class Product < ApplicationRecord
     end
   end
 
+  def modify_global_stock(new_stock)
+    if self.stock != new_stock
+      self.update_column(:stock, new_stock)
+    end
+  end
 
+  def modify_size_stock(sizes_data)
+    #itero sobre los distintos talles con stock
+    sizes_data.each do |size_data|
+      product_size_edit = ProductSize.find_by(product_id: self.id, size_id: size_data[:size_id])
+      #comparo el stock del talle quetengo guardado con el ingresado por parametro paraver si es nacesario actualizar
+      if product_size_edit.product_size_stock != size_data[:product_size_stock].to_i
+        product_size_edit.product_size_stock = size_data[:product_size_stock].to_i
+        ProductSize.update_stock(self.id, size_data[:size_id], size_data[:product_size_stock].to_i)
+      end
+    end
+  end
 end

@@ -123,23 +123,9 @@ class ProductsController < ApplicationController
   def modify_stock
     
     if @product.product_sizes.any?
-      #itero sobre los distintos talles con stock
-      params[:product][:product_sizes_attributes].each do |size_data|
-        ##hacer en el modelo de product size esto de aca (hasta linea 135))
-        product_size_edit = ProductSize.find_by(product_id: @product.id, size_id: size_data[:size_id])
-
-        #comparo el stock del talle quetengo guardado con el ingresado por parametro paraver si es nacesario actualizar
-        if product_size_edit.product_size_stock != size_data[:product_size_stock].to_i
-          product_size_edit.product_size_stock = size_data[:product_size_stock].to_i
-          ProductSize.update_stock(@product.id, size_data[:size_id], size_data[:product_size_stock].to_i)
-        end
-      end
+      @product.modify_size_stock(params[:product][:product_sizes_attributes])
     else
-      #caso en el que el producto no tiene talles (se maneja con stock global
-      new_stock = params[:product][:stock].blank? ? 0 : params[:product][:stock].to_i
-      if @product.stock != new_stock
-        @product.update_column(:stock, new_stock)
-      end
+      @product.modify_global_stock(params[:product][:stock].blank? ? 0 : params[:product][:stock].to_i)
     end
   
     redirect_to index_administration_products_path, notice: 'El stock se actualizó correctamente.'
