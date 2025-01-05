@@ -32,6 +32,12 @@ Rails.application.routes.draw do
     end
   end
 
+  resource :cart, only: [:show] do
+    post 'add_item', to: 'carts#add_item', as: 'add_item'
+  end
+
+  resources :cart_items, only: [:destroy]
+
   resources :sales
   root "home#index"
 end

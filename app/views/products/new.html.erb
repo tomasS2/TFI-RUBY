@@ -37,7 +37,7 @@
                 
                 <div class="form-outline mb-3">
                   <%= form.label :stock, "Stock (dejar vacío si el producto tiene talles)", class: "form-label" %>
-                  <%= form.number_field :stock, class: "form-control form-control-sm", data: { product_create_target: "stock", action: "input->product-create#updateStock" } %>
+                  <%= form.number_field :stock, min: 0,  class: "form-control form-control-sm", data: { product_create_target: "stock", action: "input->product-create#updateStock" } %>
                 </div>
               
                 <div data-product-create-target="sizesContainer">
@@ -47,7 +47,7 @@
                       <%= fields_for "product[product_sizes][]", ProductSize.new(size_id: size.id) do |ps| %>
                         <%= ps.hidden_field :size_id, value: size.id %>
                         <%= ps.label :product_size_stock, "Talle #{size.size_value}", class: "form-label" %>
-                        <%= ps.number_field :product_size_stock, class: "form-control form-control-sm", placeholder: "Ingrese el stock" %>
+                        <%= ps.number_field :product_size_stock, min: 0, class: "form-control form-control-sm", placeholder: "Ingrese el stock" %>
                       <% end %>
                     </div>
                   <% end %>

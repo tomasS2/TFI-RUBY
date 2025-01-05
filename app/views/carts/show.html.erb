@@ -1,0 +1,37 @@
+<h1>Carrito de Compras</h1>
+<p style="color: green"><%= notice %></p>
+<p style="color: red"><%= alert %></p>
+
+<% if @cart.cart_items.any? %>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Producto</th>
+        <th>Cantidad</th>
+        <th>Precio</th>
+        <th>Total acumulado</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @cart.cart_items.each do |cart_item| %>
+        <tr>
+          <td><%= cart_item.product.name %></td>
+          <td><%= cart_item.quantity %></td>
+          <td><%= number_to_currency(cart_item.product.price) %></td>
+          <td><%= number_to_currency(cart_item.price) %></td>
+          <td>
+            <%= button_to 'Eliminar del carrito', cart_item, method: :delete, class: 'btn btn-danger' %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <div class="total">
+    <p>Total: <%= number_to_currency(@cart.total_price) %></p>
+    boton de confirmar venta
+  </div>
+<% else %>
+  <p>Tu carrito está vacío.</p>
+<% end %>

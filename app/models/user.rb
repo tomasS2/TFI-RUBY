@@ -7,6 +7,7 @@ class User < ApplicationRecord
   validates :username, presence: true
   validates :phone_number, presence: true
   ##agregar validaciones faltantes (checkeo num telefono etc)
+  has_one :cart, dependent: :destroy
 
   def add_selected_roles(roles_from_form)
     if !roles_from_form.blank?

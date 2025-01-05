@@ -54,4 +54,18 @@ class Product < ApplicationRecord
       end
     end
   end
+
+
+  def has_stock(quantity, size_id)
+    if !size_id.blank? && self.product_sizes.any?
+      product_size_selected = ProductSize.find_by(size_id: size_id, product_id: self.id)
+      return product_size_selected.product_size_stock >= quantity
+    else  
+      return self.stock >= quantity
+    end
+  end
+
+  def has_size_without_size_id_sent?(size_id)
+    return self.product_sizes.any? ? size_id.blank? : false
+  end
 end
