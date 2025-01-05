@@ -3,6 +3,9 @@ puts "Borrando usuarios y roles..."
 User.find_each do |user|
     user.roles.clear
   end
+  
+CartItem.delete_all
+Cart.delete_all
 User.delete_all
 Role.delete_all
 
