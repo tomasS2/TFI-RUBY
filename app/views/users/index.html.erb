@@ -2,6 +2,12 @@
 
 <% content_for :title, "Usuarios" %>
   <div class="m-4">
+    <div class="d-flex justify-content-between mb-4">
+      <h2 class="mb-0">Panel de Usuarios</h2>
+      <div class="d-flex">
+        <%= link_to "Nuevo usuario", new_app_user_path, class: "btn btn-success" %>
+      </div>
+    </div>
     <table class="table">
       <thead>
         <tr>
@@ -45,6 +51,4 @@
 
     </table>
 
-
-    <%= link_to "Nuevo usuario", new_app_user_path, class: "btn btn-primary btn-md w-20" %>
   </div>

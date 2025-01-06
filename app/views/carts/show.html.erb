@@ -1,7 +1,10 @@
-<h1>Carrito de Compras</h1>
 <p style="color: green"><%= notice %></p>
 <p style="color: red"><%= alert %></p>
+<div class="m-4">
 
+<div class="d-flex justify-content-between mb-4">
+  <h2 class="mb-0">Carrito de Compras</h2>
+</div>
 <% if @cart.cart_items.any? %>
   <table class="table">
     <thead>
@@ -35,3 +38,4 @@
 <% else %>
   <p>Tu carrito está vacío.</p>
 <% end %>
+</div>
