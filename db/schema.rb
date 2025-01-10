@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_01_05_002505) do
+ActiveRecord::Schema[8.0].define(version: 2025_01_08_214141) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -105,8 +105,10 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_05_002505) do
     t.decimal "price", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "size_id"
     t.index ["product_id"], name: "index_sale_items_on_product_id"
     t.index ["sale_id"], name: "index_sale_items_on_sale_id"
+    t.index ["size_id"], name: "index_sale_items_on_size_id"
   end
 
   create_table "sales", force: :cascade do |t|
@@ -115,6 +117,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_05_002505) do
     t.string "client", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "status", default: "done"
     t.index ["user_id"], name: "index_sales_on_user_id"
   end
 
@@ -156,5 +159,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_05_002505) do
   add_foreign_key "products", "categories"
   add_foreign_key "sale_items", "products"
   add_foreign_key "sale_items", "sales"
+  add_foreign_key "sale_items", "sizes"
   add_foreign_key "sales", "users"
 end
