@@ -94,7 +94,10 @@ es:
               blank: "Debe adjuntar una imagen del producto"
             stock:
               greater_than_or_equal_to: "El stock debe ser mayor o igual a 0"
-              
+        sale:
+          attributes:
+            client:  
+              blank: "El campo nombre del cliente no puede estar vacío"
 
       messages:
         blank: "No puede estar vacío."

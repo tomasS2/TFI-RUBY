@@ -6,6 +6,8 @@ User.find_each do |user|
   
 CartItem.delete_all
 Cart.delete_all
+SaleItem.delete_all
+Sale.delete_all
 User.delete_all
 Role.delete_all
 
