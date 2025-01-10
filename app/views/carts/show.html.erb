@@ -2,40 +2,65 @@
 <p style="color: red"><%= alert %></p>
 <div class="m-4">
 
-<div class="d-flex justify-content-between mb-4">
-  <h2 class="mb-0">Carrito de Compras</h2>
-</div>
-<% if @cart.cart_items.any? %>
-  <table class="table">
-    <thead>
-      <tr>
-        <th>Producto</th>
-        <th>Cantidad</th>
-        <th>Precio</th>
-        <th>Total acumulado</th>
-        <th>Acciones</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @cart.cart_items.each do |cart_item| %>
-        <tr>
-          <td><%= cart_item.product.name %></td>
-          <td><%= cart_item.quantity %></td>
-          <td><%= number_to_currency(cart_item.product.price) %></td>
-          <td><%= number_to_currency(cart_item.price) %></td>
-          <td>
-            <%= button_to 'Eliminar del carrito', cart_item, method: :delete, class: 'btn btn-danger' %>
-          </td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
-
-  <div class="total">
-    <p>Total: <%= number_to_currency(@cart.total_price) %></p>
-    boton de confirmar venta
+  <div class="d-flex justify-content-between mb-4">
+    <h2 class="mb-0">Carrito de Compras</h2>
   </div>
-<% else %>
-  <p>Tu carrito está vacío.</p>
-<% end %>
+
+  <% if @cart.cart_items.any? %>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Producto</th>
+          <th>Cantidad</th>
+          <th>Precio</th>
+          <th>Total acumulado</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @cart.cart_items.each do |cart_item| %>
+          <tr>
+            <td><%= cart_item.product.name %></td>
+            <td><%= cart_item.quantity %></td>
+            <td><%= number_to_currency(cart_item.product.price) %></td>
+            <td><%= number_to_currency(cart_item.price) %></td>
+            <td>
+              <%= button_to 'Eliminar del carrito', cart_item, method: :delete, class: 'btn btn-danger' %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+
+    <div class="total">
+      <p>Total: <%= number_to_currency(@cart.total_price) %></p>
+      <%= button_tag 'Confirmar Compra', class: 'btn btn-success', data: { bs_toggle: 'modal', bs_target: '#clientModal' } %>
+    </div>
+
+    <div class="modal fade" id="clientModal" tabindex="-1" aria-labelledby="clientModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="clientModalLabel">Ingresa el nombre del cliente</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <%= form_with url: sales_path, method: :post, local: true do |form| %>
+              <div class="mb-3">
+                <%= form.label :client, "Nombre del cliente:" %>
+                <%= form.text_field :client, class: 'form-control', placeholder: 'Escribe el nombre' %>
+              </div>
+              <div class="mb-3">
+                <%= form.submit "Confirmar Compra", class: 'btn btn-success w-100' %>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  <% else %>
+    <p>Tu carrito está vacío.</p>
+  <% end %>
+
 </div>

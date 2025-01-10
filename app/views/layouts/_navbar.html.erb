@@ -44,7 +44,7 @@
                         <%= current_user.username %>
                     </a>
                     <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="#">Ventas</a>
+                        <a class="dropdown-item" href="<%= sales_path %>">Ventas</a>
                         <a class="dropdown-item" href="<%= index_administration_products_path %>">Productos</a>
                         <% if current_user.has_any_role?(:admin, :manager) %> 
                             <a class="dropdown-item" href="<%= app_users_path %>">Usuarios</a>

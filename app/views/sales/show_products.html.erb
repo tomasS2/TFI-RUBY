@@ -1,0 +1,39 @@
+<p style="color: green"><%= notice %></p>
+<p style="color: red"><%= alert %></p>
+<div class="m-4">
+
+<div class="d-flex justify-content-between mb-4">
+  <h2 class="mb-0">Producto de la venta</h2>
+</div>
+<table class="table">
+<thead>
+    <tr>
+    <th>Producto</th>
+    <th>Talle</th>
+    <th>Cantidad</th>
+    <th>Precio unitario</th>
+    <th>Total acumulado</th>
+    </tr>
+</thead>
+<tbody>
+    <% @sale.sale_items.each do |sale_item| %>
+    <tr>
+        <td><%= sale_item.product.name %></td>
+        <% if sale_item.size_id.nil? %>
+            <td> No tiene </td>
+        <% else %>
+            <td><%= Size.find(sale_item.size_id).size_value.upcase %></td>
+        <% end %>
+        <td><%= sale_item.quantity %></td>
+        <td><%= number_to_currency(sale_item.product.price) %></td>
+        <td><%= number_to_currency(sale_item.price) %></td>
+    </tr>
+    <% end %>
+</tbody>
+</table>
+
+<div class="total">
+<p>Total: <%= number_to_currency(@sale.total_price) %></p>
+</div>
+
+</div>

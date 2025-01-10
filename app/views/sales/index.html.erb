@@ -1,16 +1,50 @@
 <p style="color: green"><%= notice %></p>
 
-<% content_for :title, "Sales" %>
+<% content_for :title, "Ventas" %>
+  <div class="m-4">
+    <div class="d-flex justify-content-between mb-4">
+      <h2 class="mb-0">Panel de Ventas</h2>
+    </div>
+    <% if !@sales.blank? %>
 
-<h1>Sales</h1>
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Fecha</th>
+            <th scope="col">Total</th>
+            <th scope="col">Cliente</th>
+            <th scope="col">Empleado</th>
+            <th scope="col">Estado</th>
+            <th scope="col">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @sales.each do |sale| %>
+            <tr>
+              <td><%= sale.id %></td>
+              <td><%= sale.created_at.strftime("%d-%m-%Y %H:%M") %></td>
+              <td><%= sale.total %></td>
+              <td><%= sale.client %></td>
+              <td><%= User.find(sale.user_id)&.username %></td>
+              <% if sale.status == 'done' %>
+                <td style="color: green">Realizada</td>
+              <% else %>
+                <td style="color: red">Cancelada</td>
+              <% end %>
+              <td class="d-flex gap-2">
+              <%= link_to "Detalle de los productos", show_products_sale_path(sale), method: :get, class: "btn btn-primary" %>
+              <% if sale.status != 'canceled' %>
+                <%= button_to "Cancelar venta", cancel_sale_path(sale), method: :post, class: "btn btn-danger" %>
+              <% end %>
 
-<div id="sales">
-  <% @sales.each do |sale| %>
-    <%= render sale %>
-    <p>
-      <%= link_to "Show this sale", sale %>
-    </p>
-  <% end %>
-</div>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
 
-<%= link_to "New sale", new_sale_path %>
+    <% else %>
+      No hay ventas registradas
+    <% end %>
+  </div>

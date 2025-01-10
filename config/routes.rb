@@ -38,6 +38,11 @@ Rails.application.routes.draw do
 
   resources :cart_items, only: [:destroy]
 
-  resources :sales
+  resources :sales do 
+    member do
+      get :show_products
+      post :cancel
+    end
+  end
   root "home#index"
 end

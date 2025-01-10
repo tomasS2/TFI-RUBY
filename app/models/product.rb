@@ -68,4 +68,13 @@ class Product < ApplicationRecord
   def has_size_without_size_id_sent?(size_id)
     return self.product_sizes.any? ? size_id.blank? : false
   end
+
+  def update_stock_global(stock)
+    self.update_column(:stock, stock)
+  end
+
+  def update_size_stock(quantity, size_id)
+    product_size_stock = ProductSize.find_by(size_id: size_id, product_id: self.id).product_size_stock
+    ProductSize.update_stock(self.id, size_id, product_size_stock - quantity)
+  end
 end
