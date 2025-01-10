@@ -35,7 +35,4 @@
     <% end %>
   </div>
 </div>
-<% if current_user && current_user.has_any_role?(:admin, :manager, :employee) %>
-  <%= link_to "Nuevo producto", new_product_path, class: "btn btn-success mt-3" %>
-<% end %>
 

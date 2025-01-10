@@ -52,9 +52,9 @@
       <% else %>
         <p><strong>Stock:</strong>  <%= product.stock %></p>
       <% end %>
-        <% if product.product_sizes.any? %>
-          <p><strong>Color:</strong></p>
-        <% end %>
+        
+      <p><strong>Color:</strong> <%= product.colour %></p>
+        
       <% if current_user %>
 
         <%= form_with url: add_item_cart_path, method: :post, local: true do |f| %>
