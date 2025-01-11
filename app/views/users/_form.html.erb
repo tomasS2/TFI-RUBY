@@ -42,7 +42,7 @@
                 <% roles.each do |role| %>
                   <div class="form-check">
                     <%= check_box_tag 'user[role][]', role, @user.has_role?(role), class: 'form-check-input', id: "#{role}Role" %>
-                    <%= label_tag "#{role}Role", role.capitalize, class: 'form-check-label' %>
+                    <%= label_tag "#{role}Role", t("roles.#{role}"), class: 'form-check-label' %>
                   </div>
                 <% end %>
               </div>

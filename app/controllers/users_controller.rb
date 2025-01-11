@@ -18,6 +18,9 @@ class UsersController < ApplicationController
     
     
     def edit
+      if @user.status == 'inactive'
+        redirect_to app_users_path, alert: "Debe activar el usuario primero"
+      end 
     end
 
     def create
@@ -108,7 +111,8 @@ class UsersController < ApplicationController
       end
 
       def allowed_roles()
-        if !current_user.has_any_role?(:admin, :manager)
+        if current_user && 
+          !current_user.has_any_role?(:admin, :manager)
           redirect_to root_path
         end
       end

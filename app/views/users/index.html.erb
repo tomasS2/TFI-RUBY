@@ -1,4 +1,5 @@
 <p style="color: green"><%= notice %></p>
+<p style="color: red"><%= alert %></p>
 
 <% content_for :title, "Usuarios" %>
   <div class="m-4">
@@ -24,15 +25,16 @@
             <td><%= user.username %></td>
             <td><%= user.email %></td>
             <% if user.status == 'active' %>
-              <td>Activo</td>
+              <td style="color: green">Activo</td>
             <% else %>
-              <td>Inactivo</td>
+              <td style="color: red">Inactivo</td>
             <% end %>
-            <td><%= user_roles(user) %></td>
-            <td >
+            <td>  <%= user.roles.map { |role| I18n.t("roles.#{role.name}") }.join(', ') %> </td>
+            <td>
               <% if (user.roles.pluck(:name).include? "admin") %>
                 <% if current_user.has_role?(:admin) %>
-                  <%= link_to "Editar usuario", edit_app_user_path(user), class: "btn btn-primary" %>
+                  <%= link_to "Editar usuario", edit_app_user_path(user), 
+                  class: "btn btn-primary #{'disabled' unless user.status == 'active'}" %>
                 <% end %>
               <% else %>
                 <%= link_to "Editar usuario", edit_app_user_path(user), class: "btn btn-primary" %>

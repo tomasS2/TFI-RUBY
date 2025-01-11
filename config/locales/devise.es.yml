@@ -1,4 +1,8 @@
 es:
+  roles: 
+    admin: "Administrador"
+    manager: "Gerente"
+    employee: "Empleado"
   devise:
     confirmations:
       confirmed: "Tu dirección de correo electrónico ha sido confirmada exitosamente."
