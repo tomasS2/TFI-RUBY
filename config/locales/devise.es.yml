@@ -102,6 +102,10 @@ es:
           attributes:
             client:  
               blank: "El campo nombre del cliente no puede estar vacío"
+        category:
+          attributes:
+            category_name:  
+              blank: "El campo nombre de la categoría no puede estar vacío."
 
       messages:
         blank: "No puede estar vacío."

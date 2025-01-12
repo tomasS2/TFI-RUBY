@@ -17,9 +17,9 @@ Rails.application.routes.draw do
     passwords: 'users/passwords', 
   }
 
-  #esto hay que habilitarlo.
-  #resources :sizes
-  #resources :categories
+  
+  resources :sizes
+  resources :categories
 
   resources :products do 
     collection do 
