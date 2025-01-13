@@ -92,6 +92,7 @@ es:
             price:
               blank: "El campo del precio no puede estar vacío"
               not_a_number: "El precio debe ser un número"
+              greater_than_or_equal_to: "El precio debe ser un número mayor o igual a 0."
             description:
               blank: "El campo de descripción no puede estar vacío"
             images:

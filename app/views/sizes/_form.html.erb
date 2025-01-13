@@ -8,12 +8,10 @@
             <h3 class="mb-4 pb-2 pb-md-0 mb-md-4">Editar talle</h3>
             <%= form_for(@size, url: size_path, method: :put) do |form| %>
               <% if @size.errors.any? %>
-                <div style="color: red">
-                  <ul>
-                    <% @size.errors.each do |error| %>
-                      <li><%= error.full_message %></li>
-                    <% end %>
-                  </ul>
+                <div>
+                  <% @size.errors.each do |error| %>
+                    <p class="alert alert-danger"><%= error.full_message %></p>
+                  <% end %>
                 </div>
               <% end %>
 

@@ -10,12 +10,10 @@
 
             <%= form_for(@product, url: modify_stock_product_path, method: :patch) do |form| %>
             <% if @product.errors.any? %>
-              <div style="color: red">
-                <ul>
-                  <% @product.errors.each do |error| %>
-                  <li><%= error.full_message %></li>
-                  <% end %>
-                </ul>
+              <div>
+                <% @product.errors.each do |error| %>
+                  <p class="alert alert-danger"><%= error.full_message %></p>
+                <% end %>
               </div>
             <% end %>
 

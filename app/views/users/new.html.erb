@@ -9,12 +9,10 @@
             <h3 class="mb-4 pb-2 pb-md-0 mb-md-4">Registrar usuario</h3>
             <%= form_for(@user, url: app_users_path, method: :post) do |form| %>
               <% if @user.errors.any? %>
-                <div style="color: red">
-                  <ul>
-                    <% @user.errors.each do |error| %>
-                      <li><%= error.full_message %></li>
-                    <% end %>
-                  </ul>
+                <div>
+                  <% @user.errors.each do |error| %>
+                    <p class="alert alert-danger"><%= error.full_message %></p>
+                  <% end %>
                 </div>
               <% end %>
 
@@ -24,7 +22,7 @@
               </div>
               
               <div class="form-outline mb-3">
-                <%= form.label :email, "Corre electrónico", class: "form-label" %>
+                <%= form.label :email, "Correo electrónico", class: "form-label" %>
                 <%= form.email_field :email, class: "form-control form-control-sm" %>
               </div>
 
@@ -52,7 +50,7 @@
 
               <div class="mt-3 pt-2 d-flex justify-content-between">
                 <%= link_to "Volver a usuarios", app_users_path, class: "btn btn-danger btn-sm w-20" %>
-                <%= form.submit "Confirmar cambios", class: "btn btn-primary btn-sm w-20" %>
+                <%= form.submit "Confirmar", class: "btn btn-primary btn-sm w-20" %>
               </div>
             <% end %>
           </div>

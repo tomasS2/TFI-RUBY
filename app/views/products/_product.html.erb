@@ -37,13 +37,15 @@
         <h5>Talles</h5>
         <div class="row">
           <% product.product_sizes.each do |product_size| %>
-            <div class="col-6 col-sm-4 col-md-2 mb-2">
+            <div class="col-6 col-sm-4 col-md-3 mb-2">
               <div class="card p-3 border rounded-3 position-relative">
                 <div class="size-name text-center">
                   <%= Size.find(product_size.size_id).size_value.upcase %>
                 </div>
-                <div class="stock-info d-none text-center position-absolute top-0 start-0 w-100 h-100 bg-white opacity-75 d-flex justify-content-center align-items-center">
-                  <%= product_size.product_size_stock %>
+                <div class="stock-info d-none text-center position-absolute top-0 start-0 w-100 h-100 bg-white opacity-80 d-flex justify-content-center align-items-center">
+                  <p style="color: <%= product_size.product_size_stock > 0 ? 'green' : 'red' %>">
+                    <%= product_size.product_size_stock %>
+                  </p>
                 </div>
               </div>
             </div>
@@ -64,9 +66,11 @@
             <div class="form-group">
               <%= f.label :size, "Seleccionar talle", class: "form-label" %>
               <%= f.select :size_id, product.product_sizes.map { |ps| 
-                if ps.product_size_stock > 0 
-                  [Size.find(ps.size_id).size_value.upcase, ps.size_id]
+                if ps.product_size_stock > 0
+                  size = Size.find(ps.size_id)
+                  ["#{size.size_value.upcase} - stock: #{ps.product_size_stock}", ps.size_id]
                 end 
+                
               }.compact, prompt: "Elige un talle", class: "form-select" %>
             </div>
           <% end %>

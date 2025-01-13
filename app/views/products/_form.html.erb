@@ -11,12 +11,10 @@
 
               <%= form_for(@product, url: product_path, method: :put) do |form| %>
                 <% if @product.errors.any? %>
-                  <div style="color: red">
-                    <ul>
-                      <% @product.errors.each do |error| %>
-                        <li><%= error.full_message %></li>
-                      <% end %>
-                    </ul>
+                  <div>
+                    <% @product.errors.each do |error| %>
+                      <p class="alert alert-danger"><%= error.full_message %></p>
+                    <% end %>
                   </div>
                 <% end %>
 
@@ -64,7 +62,7 @@
                   <% end %>
                 </div>
                 <div class="form-outline mb-3">
-                  <%= form.label :category_id, "Color", class: "form-label" %>
+                  <%= form.label :color, "Color", class: "form-label" %>
                   <%= form.text_field :colour, class: "form-control form-control-sm" %>
                 </div>
 

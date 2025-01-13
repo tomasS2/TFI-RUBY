@@ -8,12 +8,10 @@
             <h3 class="mb-4 pb-2 pb-md-0 mb-md-4">Editar categoría</h3>
             <%= form_for(@category, url: category_path, method: :put) do |form| %>
               <% if @category.errors.any? %>
-                <div style="color: red">
-                  <ul>
-                    <% @category.errors.each do |error| %>
-                      <li><%= error.full_message %></li>
-                    <% end %>
-                  </ul>
+                <div>
+                  <% @category.errors.each do |error| %>
+                    <p class="alert alert-danger"><%= error.full_message %></p>
+                  <% end %>
                 </div>
               <% end %>
 
