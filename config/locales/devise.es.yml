@@ -106,6 +106,10 @@ es:
           attributes:
             category_name:  
               blank: "El campo nombre de la categoría no puede estar vacío."
+        size:
+          attributes:
+            size_value:  
+              blank: "El campo del valor del talle no puede estar vacío."
 
       messages:
         blank: "No puede estar vacío."
