@@ -3,11 +3,16 @@ class ProductsController < ApplicationController
   before_action :authenticate_user!, only: %i[ create edit update destroy index_administration ] 
 
   # GET /products or /products.json
+
+  #pasar este código al modelo
   def index
     @products = Product.where(delete_date: nil)  
     if params[:query].present?
-      @products = @products.where("name LIKE ? OR description LIKE ?", "%#{params[:query]}%", "%#{params[:query]}%")
-      .where(delete_date: nil)
+      @products = @products.search_filter(params[:query])
+    elsif params[:format].present?
+      category = Category.find(params[:format].to_i)
+      subcategories_ids = category.subcategories.pluck(:id)
+      @products = @products.category_filter(subcategories_ids)
     end
   end
 

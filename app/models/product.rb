@@ -77,4 +77,11 @@ class Product < ApplicationRecord
     product_size_stock = ProductSize.find_by(size_id: size_id, product_id: self.id).product_size_stock
     ProductSize.update_stock(self.id, size_id, product_size_stock - quantity)
   end
+
+  def self.search_filter(query)
+    return where("name LIKE ? OR description LIKE ?", "%#{query}%", "%#{query}%")
+  end
+  def self.category_filter(subcategories_ids)
+    return where(category_id: subcategories_ids)
+  end
 end

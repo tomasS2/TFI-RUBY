@@ -11,7 +11,7 @@
                 <ul class="navbar-nav navbar-right mb-2 mb-lg-0 ms-5">
                     <% @primary_categories.each do |primary_category| %>
                         <li class="nav-item active">
-                            <a class="nav-link color-letra" href=<%= products_path %>><%= primary_category.category_name %></a>
+                            <a class="nav-link color-letra" href=<%= products_path(primary_category.id) %>><%= primary_category.category_name %></a>
                         </li>
                     <% end %>
                     <!-- ver si hacer algo asi como "otro" en las categorias
