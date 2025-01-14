@@ -9,14 +9,12 @@
         <div class="collapse navbar-collapse justify-content-center" id="navbarSupportedContent">
             <div class="navbar-nav">
                 <ul class="navbar-nav navbar-right mb-2 mb-lg-0 ms-5">
-
-                    <li class="nav-item active">
-                        <a class="nav-link color-letra" href=<%= products_path %>>Calzado</a>
-                    </li>
-                    <li class="nav-item active">
-                        <a class="nav-link color-letra" href=<%= products_path %>>Ropa</a>
-                    </li>
-                    
+                    <% @primary_categories.each do |primary_category| %>
+                        <li class="nav-item active">
+                            <a class="nav-link color-letra" href=<%= products_path %>><%= primary_category.category_name %></a>
+                        </li>
+                    <% end %>
+                    <!-- ver si hacer algo asi como "otro" en las categorias
                     <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Deportes
@@ -27,16 +25,16 @@
                         <a class="dropdown-item" href="#">Básquet</a>
                     </div>
                     </li>
-                    
+                    -->
                 </ul>
             </div>
         </div>
 
         <div class="d-flex align-items-center">
-            <form class="d-flex my-2 my-lg-0 me-3">
-                <input class="form-control mr-sm-2" type="search" placeholder="Buscar productos" aria-label="Search">
-                <button class="btn btn-outline-success my-2 my-sm-0 ms-2" type="submit">Buscar</button>
-            </form>
+            <%= form_with url: products_path, method: :get, class: 'd-flex align-items-center' do %>    
+                <%= text_field_tag :query, params[:query], class: 'form-control mr-sm-2', placeholder: 'Buscar productos', type: 'search', aria: { label: 'Search' } %>
+                <%= submit_tag 'Buscar', class: 'btn btn-outline-success my-2 my-sm-0 ms-2' %>
+            <% end %>
             <% if current_user %> 
                 <div class="nav-item dropdown d-flex align-items-center">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

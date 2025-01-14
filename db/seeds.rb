@@ -95,20 +95,46 @@ Size.delete_all
 
 puts "Creando categorías"
 
-categoria_zapatilla = Category.create!(
-    id: 1,
-    category_name: "Zapatilla",
+#categorías principales
+categoria_calzado = Category.new(
+    category_name: "Calzado",
 )
+categoria_calzado.save(validate: false)
 
-categoria_campera = Category.create!(
-    id: 2,
-    category_name: "Campera",
+categoria_abrigo = Category.new(
+    category_name: "Abrigo",
 )
+categoria_abrigo.save(validate: false)
 
-categoria_pantalon = Category.create!(
-    id: 3,
+categoria_remera = Category.new(
+    category_name: "Remera",
+)
+categoria_remera.save(validate: false)
+
+categoria_pantalon = Category.new(
     category_name: "Pantalón",
 )
+categoria_pantalon.save(validate: false)
+
+#subcategorías 
+categoria_pantalon_buzo = Category.create!(
+    category_name: "Pantalón de buzo",
+    parent_id: categoria_pantalon.id,
+)
+categoria_camiseta = Category.create!(
+    category_name: "Camiseta",
+    parent_id: categoria_remera.id,
+)
+categoria_originals = Category.create!(
+    category_name: "Adidas originals",
+    parent_id: categoria_calzado.id,
+)
+categoria_campera = Category.create!(
+    category_name: "Campera",
+    parent_id: categoria_abrigo.id,
+)
+
+
 
 puts "Creando talles"
 
@@ -139,7 +165,7 @@ campera = Product.new(
     description: "Diseñada para el frío",
     price: 100,
     colour: "Rojo",
-    category_id: 3,
+    category_id: categoria_campera.id,
   )
 
 campera.images.attach(io: File.open(Rails.root.join('app', 'assets', 'images', 'campera_adidas.jpg')), filename: 'campera_adidas.jpg')
@@ -155,7 +181,7 @@ pantalon = Product.new(
     description: "Diseñada para las piernas",
     price: 200,
     colour: "Negro",
-    category_id: 2,
+    category_id: categoria_pantalon_buzo.id,
   )
 
 pantalon.images.attach(io: File.open(Rails.root.join('app', 'assets', 'images', 'pantalon_adidas.jpg')), filename: 'pantalon_adidas.jpg')
@@ -172,7 +198,7 @@ zapatilla = Product.new(
     description: "Diseñada para los pies",
     price: 500,
     colour: "Celeste",
-    category_id: 1,
+    category_id: categoria_originals.id,
   )
 
 zapatilla.images.attach(io: File.open(Rails.root.join('app', 'assets', 'images', 'zapatillas_adidas.jpg')), filename: 'zapatillas_adidas.jpg')

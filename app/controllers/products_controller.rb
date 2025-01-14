@@ -5,6 +5,10 @@ class ProductsController < ApplicationController
   # GET /products or /products.json
   def index
     @products = Product.where(delete_date: nil)  
+    if params[:query].present?
+      @products = @products.where("name LIKE ? OR description LIKE ?", "%#{params[:query]}%", "%#{params[:query]}%")
+      .where(delete_date: nil)
+    end
   end
 
 
@@ -20,7 +24,7 @@ class ProductsController < ApplicationController
   def new
     if current_user && current_user.has_any_role?(:admin, :manager, :employee)
       @product = Product.new
-      @categories = Category.all
+      @categories = Category.where.not(parent_id: nil)
     else
       redirect_to root_path
     end
@@ -29,7 +33,7 @@ class ProductsController < ApplicationController
   # GET /products/1/edit
 
   def edit
-    @categories = Category.all
+    @categories = Category.where.not(parent_id: nil)
   end
 
   # POST /products or /products.json

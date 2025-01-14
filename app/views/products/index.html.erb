@@ -1,13 +1,15 @@
 <p style="color: green"><%= notice %></p>
 
 <% content_for :title, "Productos" %>
-
-<h1>Productos</h1>
-
-<div id="products">
-  <% if !@products.blank? %>
-
-    <div class="container mt-4">
+<div class="container mt-4">
+  <div class="row align-items-start">
+    <div class="col-12">
+      <h1 class="d-inline-block mb-4">Productos</h1>
+    </div>
+    <div class="col-12 mb-4">
+      <p class="text-muted">ver si pongo algo relacionado a: resultados de tu busqueda (busqueda)</p>
+    </div>
+    <% if !@products.blank? %>
       <div class="row">
         <% @products.each do |product| %>
           <div class="col-md-4 mb-4" id="<%= dom_id product %>">
@@ -35,10 +37,10 @@
           </div>
         <% end %>
       </div>
-    </div>
-  <% else %>
-    No hay productos
-  <% end %>
-
+    <% else %>
+      No hay productos
+    <% end %>
+  </div>
+  
 </div>
 

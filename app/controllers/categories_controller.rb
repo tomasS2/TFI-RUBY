@@ -3,7 +3,7 @@ class CategoriesController < ApplicationController
 
   # GET /categories or /categories.json
   def index
-    @categories = Category.all
+    @categories = Category.where.not(parent_id: nil)
   end
 
   # GET /categories/1 or /categories/1.json
@@ -65,6 +65,6 @@ class CategoriesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def category_params
-      params.expect(category: [ :category_name ])
+      params.expect(category: [ :category_name, :parent_id])
     end
 end
