@@ -1,46 +1,48 @@
-<nav class="navbar navbar-expand-lg" style="background-color: white;">
+<nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
     <div class="container-fluid">
-        <a class="navbar-brand color-letra" href=<%= root_path %>>
+        <a class="navbar-brand color-letra fs-4 fw-bold" href="<%= root_path %>">
             Avivas
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse justify-content-center" id="navbarSupportedContent">
-            <div class="navbar-nav">
-                <ul class="navbar-nav navbar-right mb-2 mb-lg-0 ms-5">
-                    <% @primary_categories.each do |primary_category| %>
-                        <li class="nav-item active">
-                            <a class="nav-link color-letra" href=<%= products_path(primary_category.id) %>><%= primary_category.category_name %></a>
-                        </li>
-                    <% end %>
-                    <!-- ver si hacer algo asi como "otro" en las categorias
-                    <li class="nav-item dropdown">
+            <ul class="navbar-nav mb-2 mb-lg-0">
+                <% @primary_categories.each do |primary_category| %>
+                    <li class="nav-item">
+                        <a class="nav-link color-letra fs-5 fw-medium" href="<%= products_path(primary_category.id) %>"><%= primary_category.category_name %></a>
+                    </li>
+                <% end %>
+                <!-- <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Deportes
+                        Otros
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="#">Fútbol</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Básquet</a>
+                        <a class="dropdown-item" href="#">Deportes</a>
                     </div>
-                    </li>
-                    -->
-                </ul>
-            </div>
+                </li> -->
+            </ul>
         </div>
 
-        <div class="d-flex align-items-center">
-            <%= form_with url: products_path, method: :get, class: 'd-flex align-items-center' do %>    
-                <%= text_field_tag :query, params[:query], class: 'form-control mr-sm-2', placeholder: 'Buscar productos', type: 'search', aria: { label: 'Search' } %>
-                <%= submit_tag 'Buscar', class: 'btn btn-outline-success my-2 my-sm-0 ms-2' %>
+        <div class="d-flex align-items-center ms-3">
+            <%= form_with url: products_path, method: :get, class: 'd-flex' do %>    
+                <div class="input-group">
+                    <%= text_field_tag :query, params[:query], class: 'form-control shadow-sm', placeholder: 'Buscar productos', type: 'search', aria: { label: 'Search' } %>
+                    <%= submit_tag 'Buscar', class: 'btn btn-outline-success shadow-sm' %>
+                </div>
             <% end %>
-            <% if current_user %> 
-                <div class="nav-item dropdown d-flex align-items-center">
+
+            <% if current_user %>
+                <div class="nav-item dropdown d-flex align-items-center ms-3">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <%= current_user.username %>
+                        <%= image_tag('iniciarsesion.png', alt: 'Avatar', class: 'rounded-circle', width: '40', height: '40') %>
                     </a>
                     <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                        <div class="dropdown-item text-primary disabled" style="font-weight: bold;">
+                            Hola, <%= current_user.username %>
+                        </div>
+                        <div class="dropdown-divider"></div>
+
                         <a class="dropdown-item" href="<%= sales_path %>">Ventas</a>
                         <a class="dropdown-item" href="<%= index_administration_products_path %>">Productos</a>
                         <% if current_user.has_any_role?(:admin, :manager) %> 
@@ -49,15 +51,12 @@
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="<%= destroy_user_session_path %>" role="button">Cerrar sesión</a>
                     </div>
-
-                    <a class="nav-link ms-3" href="<%= cart_path %>">
-                    <button class="btn btn-outline-primary">
-                        Ver carrito 
-                    </button>
-                    </a>
+                    <%= link_to cart_path, class: 'ms-3' do %>
+                        <%= image_tag('carrito.png', alt: 'Carrito', width: '30', height: '30') %>
+                    <% end %>
                 </div>
-                <% else %>
-                    <a class="btn btn-primary ms-3" href="<%= new_user_session_path %>" role="button">Iniciar sesión</a>
+            <% else %>
+                <a class="btn btn-primary ms-3 shadow-sm" href="<%= new_user_session_path %>" role="button">Iniciar sesión</a>
             <% end %>
         </div>
     </div>
