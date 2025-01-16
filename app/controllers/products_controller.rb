@@ -6,13 +6,23 @@ class ProductsController < ApplicationController
 
   #pasar este código al modelo
   def index
+    puts "ahora"
+    puts params
     @products = Product.where(delete_date: nil)  
     if params[:query].present?
       @products = @products.search_filter(params[:query])
-    elsif params[:format].present?
-      category = Category.find(params[:format].to_i)
-      subcategories_ids = category.subcategories.pluck(:id)
-      @products = @products.category_filter(subcategories_ids)
+      render :index_search and return 
+
+    else
+      category_selected = Category.find(params[:primary_category_id].to_i)
+      @subcategories_ids = category_selected.subcategories.pluck(:id)
+
+      if params[:category].present?
+        @products = @products.category_filter(params[:category])
+      end
+      if params[:primary_category_id].present?
+        @products = @products.category_filter(@subcategories_ids)
+      end
     end
   end
 

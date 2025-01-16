@@ -10,7 +10,9 @@
             <ul class="navbar-nav mb-2 mb-lg-0">
                 <% @primary_categories.each do |primary_category| %>
                     <li class="nav-item">
-                        <a class="nav-link color-letra fs-5 fw-medium" href="<%= products_path(primary_category.id) %>"><%= primary_category.category_name %></a>
+                    <a class="nav-link color-letra fs-5 fw-medium" href="<%= filter_by_category_path(primary_category.id) %>">
+                        <%= primary_category.category_name %>
+                    </a>
                     </li>
                 <% end %>
                 <!-- <li class="nav-item dropdown">

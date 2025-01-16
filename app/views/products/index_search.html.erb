@@ -6,28 +6,6 @@
     <div class="col-12">
       <h3 class="d-inline-block mb-4">Productos</h3>
     </div>
-
-    <div class="col-md-3 mb-4">
-      <div class="card">
-        <div class="card-body">
-          <h5 class="card-title">Filtros</h5>
-          <%= form_with(url: filter_by_category_path, method: :get) do |form| %>
-            <div class="mb-3">
-              <%= form.label :category, "Categorías", class: "form-label" %>
-              <% Category.where(id: @subcategories_ids).each do |sub_category| %>
-                <div class="form-check">
-                  <%= check_box_tag 'category[]', sub_category.id, false, class: 'form-check-input', id: "#{sub_category.category_name}Category" %>
-                  <%= label_tag "#{sub_category.category_name}Category", sub_category.category_name, class: 'form-check-label' %>
-                </div>
-              <% end %>
-            </div>
-            <%= form.submit "Aplicar filtros", class: "btn btn-primary btn-sm w-20" %>
-          <% end %>
-          
-        </div>
-      </div>
-    </div>
-
     <div class="col-md-9">
       <% if !@products.blank? %>
         <div class="row">

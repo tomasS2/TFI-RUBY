@@ -116,6 +116,11 @@ categoria_pantalon = Category.new(
 )
 categoria_pantalon.save(validate: false)
 
+categoria_otros = Category.new(
+    category_name: "Otros",
+)
+categoria_otros.save(validate: false)
+
 #subcategorías 
 categoria_pantalon_buzo = Category.create!(
     category_name: "Pantalón de buzo",
@@ -133,6 +138,15 @@ categoria_campera = Category.create!(
     category_name: "Campera",
     parent_id: categoria_abrigo.id,
 )
+categoria_bolso = Category.create!(
+    category_name: "Bolso",
+    parent_id: categoria_otros.id,
+)
+categoria_pelota = Category.create!(
+    category_name: "Pelota",
+    parent_id: categoria_otros.id,
+)
+
 
 
 
@@ -206,3 +220,26 @@ zapatilla.images.attach(io: File.open(Rails.root.join('app', 'assets', 'images',
     ProductSize.create!(product: zapatilla, size: Size.find_by(size_value: "#{i+35}"), product_size_stock: i)
 end
 zapatilla.save!
+
+
+pelota = Product.new(
+    name: "Pelota Adidas Telstar",
+    description: "Pelota de fútbol",
+    price: 2500,
+    colour: "Rojo",
+    category_id: categoria_pelota.id,
+    stock: 20,
+  )
+pelota.images.attach(io: File.open(Rails.root.join('app', 'assets', 'images', 'pelota_adidas_telstar.jpg')), filename: 'pelota_adidas_telstar.jpg')
+pelota.save!
+
+bolso = Product.new(
+    name: "Bolso Adidas Tr Duffle",
+    description: "Bolso",
+    price: 600,
+    colour: "Negro",
+    category_id: categoria_bolso.id,
+    stock: 10,
+  )
+bolso.images.attach(io: File.open(Rails.root.join('app', 'assets', 'images', 'bolso_adidas_tr_duffle.jpg')), filename: 'bolso_adidas_tr_duffle.jpg')
+bolso.save!

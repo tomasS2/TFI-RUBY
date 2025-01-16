@@ -31,6 +31,8 @@ Rails.application.routes.draw do
       patch :soft_delete
     end
   end
+  get 'product_category/:primary_category_id', to: 'products#index', as: 'filter_by_category'
+  get 'products/search', to: 'products#index', as: 'search_products'
 
   resource :cart, only: [:show] do
     post 'add_item', to: 'carts#add_item', as: 'add_item'

@@ -3,7 +3,7 @@
     <% if current_user && current_user.has_any_role?(:admin, :manager, :employee)%>
       <li class="breadcrumb-item"><%= link_to "Productos", index_administration_products_path %></li>
     <% else %>
-      <li class="breadcrumb-item"><%= link_to "Productos", products_path %></li>
+      <li class="breadcrumb-item"><%= link_to "Productos", filter_by_category_path(primary_category_id: product.category.parent_id) %></li>
     <% end %>
     <li class="breadcrumb-item active" aria-current="page"><%= product.name %></li>
   </ol>
