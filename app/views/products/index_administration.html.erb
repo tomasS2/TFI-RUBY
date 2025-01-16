@@ -5,9 +5,9 @@
     <h2 class="mb-0">Panel de Productos</h2>
     <div class="d-flex gap-2">
       <%= link_to "Nuevo producto", new_product_path, class: "btn btn-success" %>
-      <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <button class="btn btn-primary dropdown-toggle" type="button" id="navbarDropdown" data-bs-toggle="dropdown" aria-expanded="false">
           Relacionado al producto
-      </a>
+        </button>
       <div class="dropdown-menu" aria-labelledby="navbarDropdown">
           <a class="dropdown-item" href=<%= categories_path %>>Categorías</a>
           <div class="dropdown-divider"></div>
