@@ -1,5 +1,7 @@
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
+    <li class="breadcrumb-item"><%= link_to "Home", root_path %></li>
+
     <% if current_user && current_user.has_any_role?(:admin, :manager, :employee)%>
       <li class="breadcrumb-item"><%= link_to "Productos", index_administration_products_path %></li>
     <% else %>

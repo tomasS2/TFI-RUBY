@@ -116,10 +116,10 @@ categoria_pantalon = Category.new(
 )
 categoria_pantalon.save(validate: false)
 
-categoria_otros = Category.new(
-    category_name: "Otros",
+categoria_accesorios = Category.new(
+    category_name: "Accesorios",
 )
-categoria_otros.save(validate: false)
+categoria_accesorios.save(validate: false)
 
 #subcategorías 
 categoria_pantalon_buzo = Category.create!(
@@ -140,11 +140,11 @@ categoria_campera = Category.create!(
 )
 categoria_bolso = Category.create!(
     category_name: "Bolso",
-    parent_id: categoria_otros.id,
+    parent_id: categoria_accesorios.id,
 )
 categoria_pelota = Category.create!(
     category_name: "Pelota",
-    parent_id: categoria_otros.id,
+    parent_id: categoria_accesorios.id,
 )
 
 

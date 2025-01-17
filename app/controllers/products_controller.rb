@@ -4,18 +4,15 @@ class ProductsController < ApplicationController
 
   # GET /products or /products.json
 
-  #pasar este código al modelo
   def index
-    puts "ahora"
-    puts params
     @products = Product.where(delete_date: nil)  
     if params[:query].present?
       @products = @products.search_filter(params[:query])
       render :index_search and return 
 
     else
-      category_selected = Category.find(params[:primary_category_id].to_i)
-      @subcategories_ids = category_selected.subcategories.pluck(:id)
+      @category_selected = Category.find(params[:primary_category_id].to_i)
+      @subcategories_ids = @category_selected.subcategories.pluck(:id)
 
       if params[:category].present?
         @products = @products.category_filter(params[:category])
