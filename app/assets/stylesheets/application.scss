@@ -56,6 +56,23 @@
 
 }
 
+.producto-show-imagen {
+  height: 450px;  
+  object-fit: cover;  
+  width: 450px;  
+  object-position: center; 
+
+}
+.producto-secundario-show-imagen {
+  height: 150px;  
+  object-fit: cover;  
+  width: 150px;  
+  object-position: center; 
+
+}
+
+
+
 .card:hover .stock-info {
   display: flex !important; 
 }

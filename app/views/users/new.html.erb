@@ -28,7 +28,7 @@
 
               <div class="form-outline mb-3">
                 <%= form.label :phone_number, "Teléfono", class: "form-label" %>
-                <%= form.text_field :phone_number, class: "form-control form-control-sm" %>
+                <%= form.text_field :phone_number,:maxlength => 15, class: "form-control form-control-sm", placeholder: "Ejemplo: +542213456789" %>
               </div>
 
               <div class="form-outline mb-3">

@@ -5,8 +5,8 @@ class User < ApplicationRecord
 
   validates :username, uniqueness: { message: "Este nombre de usuario ya está registrado"}
   validates :username, presence: true
-  validates :phone_number, presence: true
-  ##agregar validaciones faltantes (checkeo num telefono etc)
+  validates :phone_number, presence: { message: "El campo de número de teléfono no puede estar vacío" }
+  validates :phone_number, format: { with: /\A\+\d{1,4}\d{1,10}\z/, message: "El número de teléfono no cumple con el formato" }, unless: -> { phone_number.blank? }
   has_one :cart, dependent: :destroy
 
   def add_selected_roles(roles_from_form)

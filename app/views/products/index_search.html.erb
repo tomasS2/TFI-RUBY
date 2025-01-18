@@ -15,6 +15,10 @@
     <div class="col-12">
       <h3 class="d-inline-block mb-4">Productos</h3>
     </div>
+    <div class="col-12">
+      <p>Se muestran resultados de "<%= params[:query] %>" </p>
+    </div>
+
     <div class="col-md-9">
       <% if !@products.blank? %>
         <div class="row">

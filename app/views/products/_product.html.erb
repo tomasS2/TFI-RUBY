@@ -12,15 +12,15 @@
 </nav>
 <p style="color: red"><%= alert %></p>
 
-<div class="container mb-5">
+<div class="container mb-5 justify-content-start">
   <div class="row d-flex flex-row">
-    <div class="col-md-5 product-image">
+    <div class="col-md-8 producto-show-imagen">
       <% if product.images.attached? %>
         <%= image_tag product.images.first, class: "img-fluid", alt: product.name %>
       <% end %>
     </div>
 
-    <div class="col-md-2 product-small d-flex flex-md-column justify-content-start order-md-first">
+    <div class="col-md-2 producto-secundario-show-imagen d-flex flex-md-column justify-content-start order-md-first">
       <% if product.images.attached? %>
         <% if product.images.length > 1 %>
           <% product.images.drop(1).each do |imagen| %>

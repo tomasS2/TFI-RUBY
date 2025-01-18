@@ -10,6 +10,14 @@ class Product < ApplicationRecord
   validates :price, numericality: {greater_than_or_equal_to: 0}, if: -> { price.present? }
   validates :description, presence: true
   validates :stock, numericality: { greater_than_or_equal_to: 0 }, allow_nil: true
+  validate :image_limit
+
+
+  def image_limit
+    if images.length > 4
+      errors.add(:images, "No puede haber más de 4 imágenes por producto.")
+    end
+  end
 
   def delete_product_sizes()
     ProductSize.where(product_id: self.id).delete_all
