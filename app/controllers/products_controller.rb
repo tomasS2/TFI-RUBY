@@ -53,7 +53,6 @@ class ProductsController < ApplicationController
     if current_user && current_user.has_any_role?(:admin, :manager, :employee)
       @product = Product.new(product_params.except(:product_sizes))
       @categories = Category.all
-      #@product.has_size = product_params[:stock].blank? ? true : false
 
       respond_to do |format|
         if @product.save
@@ -75,7 +74,6 @@ class ProductsController < ApplicationController
   # PATCH/PUT /products/1 or /products/1.json
   def update
     @categories = Category.all
-    #@product.has_size = product_params[:stock].blank? ? true : false
     respond_to do |format|
       if params[:product][:images] == [""]
         params[:product].delete(:images)

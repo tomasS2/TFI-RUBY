@@ -33,48 +33,51 @@ employee = Role.create!(
 
 puts "Creando admin"
 
-admin_user = User.create!(
+admin_user = User.new(
     email: 'admin@admin.com',
     password: '123123',
     username: 'admin',
-    phone_number: '221 123456',
+    phone_number: '+542219914845',
 )
 admin_user.add_role(:admin) 
-
+admin_user.save!
 
 puts "Creando manager"
 
-manager_user = User.create!(
+manager_user = User.new(
     email: 'manager@manager.com',
     password: '123123',
     username: 'manager',
-    phone_number: '221 123456',
+    phone_number: '+542219944845',
 )
 manager_user.add_role(:manager)  
+manager_user.save!
 
 
 puts "Creando empleado"
  
-employee_user = User.create!(
+employee_user = User.new(
     email: 'employee@employee.com',
     password: '123123',
     username: 'employee',
-    phone_number: '221 123456',
+    phone_number: '+542213454345',
 )
 employee_user.add_role(:employee)  
+employee_user.save!
 
 
 puts "Creando Superusuario"
 
-super_user = User.create!(
+super_user = User.new(
     email: 'super@super.com',
     password: '123123',
     username: 'super',
-    phone_number: '221 123456',
+    phone_number: '+542219944345',
 )
 super_user.add_role(:admin)  
 super_user.add_role(:manager)  
 super_user.add_role(:employee)  
+super_user.save!
 
 puts "Usuarios y roles creados"
 
