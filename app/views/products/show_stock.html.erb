@@ -6,7 +6,7 @@
       <div class="col-12 col-md-8 col-lg-6 col-xl-5">
         <div class="card shadow-2-strong card-registration" style="border-radius: 15px;">
           <div class="card-body p-3 p-md-4">
-            <h3 class="mb-4 pb-2 pb-md-0 mb-md-4">Modificar stock</h3>
+            <h3 class="mb-4 pb-2 pb-md-0 mb-md-4">Modificar stock de <%= @product.name %></h3>
 
             <%= form_for(@product, url: modify_stock_product_path, method: :patch) do |form| %>
             <% if @product.errors.any? %>
@@ -20,7 +20,7 @@
 
             <% if @product.stock.blank? && !@product.product_sizes.any? %>
               <p>El producto no tiene ningún tipo de stock asociado.</p>
-              <%= link_to "Volver a los productos", index_administration_products_path, class: "btn btn-danger btn-sm w-20" %>
+              <%= link_to "Volver a los productos", index_administration_products_path, class: "btn btn-secondary btn-sm w-20" %>
             <% else %>      
               <% if @product.product_sizes.any? %>
                   <h5 class="mt-4 mb-3">Stock por talles</h5>
@@ -42,7 +42,7 @@
           
 
               <div class="mt-3 pt-2 d-flex justify-content-between">
-                  <%= link_to "Volver a los productos", index_administration_products_path, class: "btn btn-danger btn-sm w-20" %>
+                  <%= link_to "Volver a los productos", index_administration_products_path, class: "btn btn-secondary btn-sm w-20" %>
                   <%= form.submit "Guardar", class: "btn btn-primary btn-sm w-20" %>
               </div>
               <% end %>

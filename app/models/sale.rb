@@ -11,17 +11,25 @@ class Sale < ApplicationRecord
     self.sale_items.sum { |sale_item| sale_item.price }
   end
 
-  def cancel_sale()
+  def cancel_sale
     self.sale_items.each do |item|
-      if item.size_id.nil?
-        item.product.update_stock_global(item.product.stock + item.quantity)
-      else
-        product_size_stock_selected = ProductSize.find_by(product_id: item.product_id, size_id: item.size_id).product_size_stock
-        ProductSize.update_stock(item.product_id, item.size_id, product_size_stock_selected + item.quantity)
+      begin
+        if item.size_id.nil?
+          item.product.update_stock_global(item.product.stock + item.quantity)
+        else
+          product_size_stock_selected = ProductSize.find_by(product_id: item.product_id, size_id: item.size_id).product_size_stock
+          ProductSize.update_stock(item.product_id, item.size_id, product_size_stock_selected + item.quantity)
+        end
+
+      #esto se dispara cuando ya se realizó la venta, se cambia el tipo de talle de unos de los productos y se cancela la venta
+      #de igual manera, los productos que no fueron alterados, recuperarán su stock
+      rescue => e
+        Rails.logger.error("Error al procesar el item con ID #{item.id}: #{e.message}")
       end
     end
     self.update_column(:status, 'canceled')
   end
+  
   
   def self.create_sale(cart, client)
     sale = Sale.new(user: cart.user, total: cart.total_price(), client: client)
@@ -51,7 +59,7 @@ class Sale < ApplicationRecord
         return { success: true, sale: sale }
       end
     rescue => e
-      return { success: false, message: e.message }
+      return { success: false, message: "Ocurrió un error al intentar confirmar la venta. Elimine los productos del carrito e inténtelo de nuevo." }
     end
   end
 end

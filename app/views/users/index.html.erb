@@ -1,6 +1,13 @@
-<p style="color: green"><%= notice %></p>
-<p style="color: red"><%= alert %></p>
-
+<% if notice %>
+  <p class="alert alert-success">
+    <%= notice %>
+  </p>
+<% end %>
+<% if alert %>
+<p class="alert alert-danger">
+  <%= alert %>
+</p>
+<% end %>
 <% content_for :title, "Usuarios" %>
   <div class="m-4">
     <div class="d-flex justify-content-between mb-4">

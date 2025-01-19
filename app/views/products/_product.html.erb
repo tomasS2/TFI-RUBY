@@ -10,7 +10,9 @@
     <li class="breadcrumb-item active" aria-current="page"><%= product.name %></li>
   </ol>
 </nav>
-<p style="color: red"><%= alert %></p>
+<% if alert %>
+  <p class="alert alert-danger"><%= alert %></p>
+<% end %>
 
 <div class="container mb-3">
   <div class="row d-flex flex-row">

@@ -13,7 +13,7 @@ class CartsController < ApplicationController
                 @cart.save_cart_item(product, quantity, size_id)
                 redirect_to cart_path, notice: 'Producto agregado al carrito.'
             else
-                redirect_to cart_path, alert: 'No se pudo agregar el producto al carrito porque no tiene suficiente stock.'
+                redirect_to product_path(product), alert: 'No se pudo agregar el producto al carrito porque no tiene suficiente stock.'
             end
         end
     end
