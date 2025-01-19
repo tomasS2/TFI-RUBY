@@ -3,6 +3,7 @@ class Product < ApplicationRecord
   has_many :product_sizes
   has_many :sizes, through: :product_sizes
   belongs_to :category
+  belongs_to :colour, optional: true  
 
   validates :images, presence: true, on: :create
   validates :name, presence: true

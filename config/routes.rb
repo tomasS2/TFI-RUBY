@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :colours
 
   resources :app_users, controller: 'users' do
     member do

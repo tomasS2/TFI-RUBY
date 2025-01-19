@@ -5,7 +5,7 @@
     <% if current_user && current_user.has_any_role?(:admin, :manager, :employee)%>
       <li class="breadcrumb-item"><%= link_to "Productos", index_administration_products_path %></li>
     <% else %>
-      <li class="breadcrumb-item"><%= link_to "Productos", filter_by_category_path(primary_category_id: product.category.parent_id) %></li>
+      <li class="breadcrumb-item"><%= link_to product.category.parent&.category_name || "Productos", filter_by_category_path(primary_category_id: product.category.parent_id) %></li>
     <% end %>
     <li class="breadcrumb-item active" aria-current="page"><%= product.name %></li>
   </ol>
@@ -35,6 +35,9 @@
       <h5><%= product.description %></h5>
       <p class="display-4 text-success">$<%= product.price %></p>
       
+      <% if product.colour %>
+        <p><strong>Color:</strong> <%= product.colour.name %></p>
+      <% end %>  
       <% if product.product_sizes.any? %>
         <h5>Talles</h5>
         <div class="row">
@@ -56,9 +59,7 @@
       <% else %>
         <p><strong>Stock:</strong>  <%= product.stock %></p>
       <% end %>
-        
-      <p><strong>Color:</strong> <%= product.colour %></p>
-        
+              
       <% if current_user %>
 
         <%= form_with url: add_item_cart_path, method: :post, local: true do |f| %>

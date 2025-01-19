@@ -1,0 +1,32 @@
+<p style="color: green"><%= notice %></p>
+<p style="color: red"><%= alert %></p>
+
+<% content_for :title, "Colores" %>
+  <div class="m-4">
+    <div class="d-flex justify-content-between mb-4">
+      <h2 class="mb-0">Panel de colores</h2>
+      <div class="d-flex gap-2">
+        <%= link_to "Nuevo color", new_colour_path, class: "btn btn-success" %>
+        <%= link_to "Volver a los productos", index_administration_products_path, class: "btn btn-danger" %>
+
+      </div>
+    </div>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Nombre</th>
+          <th scope="col">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @colours.each do |colour| %>
+          <tr>
+            <td><%= colour.name %></td>
+            <td><%= link_to "Editar color", edit_colour_path(colour), class: "btn btn-primary" %></td>
+          </tr>
+        <% end %>
+      </tbody>
+
+    </table>
+
+  </div>

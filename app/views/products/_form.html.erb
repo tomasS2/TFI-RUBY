@@ -61,8 +61,8 @@
                   <% end %>
                 </div>
                 <div class="form-outline mb-3">
-                  <%= form.label :color, "Color", class: "form-label" %>
-                  <%= form.text_field :colour, class: "form-control form-control-sm" %>
+                  <%= form.label :colour_id, "Color", class: "form-label" %>
+                  <%= form.select :colour_id, @colours.map { |colour| [colour.name, colour.id] }, { prompt: "Selecciona un color" }, class: "form-select" %>
                 </div>
 
                 <div class="form-outline mb-3">

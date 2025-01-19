@@ -14,9 +14,15 @@ class ProductsController < ApplicationController
       @category_selected = Category.find(params[:primary_category_id].to_i)
       @subcategories_ids = @category_selected.subcategories.pluck(:id)
 
+      #filtro por subcategoría
       if params[:category].present?
         @products = @products.category_filter(params[:category])
       end
+
+      if params[:colour].present?
+        @products = @products.colour_filter(params[:category])
+      end
+      
       if params[:primary_category_id].present?
         @products = @products.category_filter(@subcategories_ids)
       end
@@ -37,6 +43,7 @@ class ProductsController < ApplicationController
     if current_user && current_user.has_any_role?(:admin, :manager, :employee)
       @product = Product.new
       @categories = Category.where.not(parent_id: nil)
+      @colours = Colour.all
     else
       redirect_to root_path
     end
@@ -46,6 +53,7 @@ class ProductsController < ApplicationController
 
   def edit
     @categories = Category.where.not(parent_id: nil)
+    @colours = Colour.all
   end
 
   # POST /products or /products.json
@@ -53,7 +61,7 @@ class ProductsController < ApplicationController
     if current_user && current_user.has_any_role?(:admin, :manager, :employee)
       @product = Product.new(product_params.except(:product_sizes))
       @categories = Category.all
-
+      @colours = Colour.all
       respond_to do |format|
         if @product.save
           if product_params[:stock].blank?
@@ -154,7 +162,7 @@ class ProductsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def product_params
-      params.expect(product: [ :name, :description, :price, :stock, :colour, :category_id, images: [], product_sizes: [:size_id, :product_size_stock ] ])
+      params.expect(product: [ :name, :description, :price, :stock, :colour_id, :category_id, images: [], product_sizes: [:size_id, :product_size_stock ] ])
     end
 
 end

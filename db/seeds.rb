@@ -96,6 +96,10 @@ ProductSize.delete_all
 
 Size.delete_all
 
+puts "Borrando colores"
+
+Colour.delete_all
+
 puts "Creando categorías"
 
 #categorías principales
@@ -151,6 +155,17 @@ categoria_pelota = Category.create!(
 )
 
 
+puts "Creando colores"
+
+azul = Colour.create!(
+    name: "Azul"
+)
+rojo = Colour.create!(
+    name: "Rojo"
+)
+negro = Colour.create!(
+    name: "Negro"
+)
 
 
 puts "Creando talles"
@@ -181,7 +196,7 @@ campera = Product.new(
     name: "Campera adidas",
     description: "Diseñada para el frío",
     price: 100,
-    colour: "Rojo",
+    colour_id: rojo.id,
     category_id: categoria_campera.id,
   )
 
@@ -197,7 +212,7 @@ pantalon = Product.new(
     name: "Pantalón adidas",
     description: "Diseñada para las piernas",
     price: 200,
-    colour: "Negro",
+    colour_id: negro.id,
     category_id: categoria_pantalon_buzo.id,
   )
 
@@ -214,7 +229,7 @@ zapatilla = Product.new(
     name: "Zapatillas adidas",
     description: "Diseñada para los pies",
     price: 500,
-    colour: "Celeste",
+    colour_id: azul.id,
     category_id: categoria_originals.id,
   )
 
@@ -229,7 +244,7 @@ pelota = Product.new(
     name: "Pelota Adidas Telstar",
     description: "Pelota de fútbol",
     price: 2500,
-    colour: "Rojo",
+    colour_id: rojo.id,
     category_id: categoria_pelota.id,
     stock: 20,
   )
@@ -240,7 +255,7 @@ bolso = Product.new(
     name: "Bolso Adidas Tr Duffle",
     description: "Bolso",
     price: 600,
-    colour: "Negro",
+    colour_id: negro.id,
     category_id: categoria_bolso.id,
     stock: 10,
   )
