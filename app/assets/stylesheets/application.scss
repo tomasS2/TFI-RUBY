@@ -57,20 +57,18 @@
 }
 
 .producto-show-imagen {
-  height: 450px;  
+  height: auto;  
   object-fit: cover;  
-  width: 450px;  
-  object-position: center; 
+  width: 100%;  
+  object-position: cover; 
 
 }
 .producto-secundario-show-imagen {
-  height: 150px;  
+  aspect-ratio: 1 / 1; 
+  width: 70%;         
   object-fit: cover;  
-  width: 150px;  
-  object-position: center; 
-
+  border-radius: 5px;  
 }
-
 
 
 .card:hover .stock-info {

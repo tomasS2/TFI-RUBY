@@ -19,13 +19,22 @@
       <div class="card">
         <div class="card-body">
           <h5 class="card-title">Filtros</h5>
-          <%= form_with(url: filter_by_category_path, method: :get) do |form| %>
+          <%= form_with(url: filter_by_checkbox_path, method: :get) do |form| %>
             <div class="mb-3">
               <%= form.label :category, "Categorías", class: "form-label" %>
               <% Category.where(id: @subcategories_ids).each do |sub_category| %>
                 <div class="form-check">
                   <%= check_box_tag 'category[]', sub_category.id, params[:category]&.include?(sub_category.id.to_s), class: 'form-check-input', id: "#{sub_category.category_name}Category" %>
                   <%= label_tag "#{sub_category.category_name}Category", sub_category.category_name, class: 'form-check-label' %>
+                </div>
+              <% end %>
+            </div>
+            <div class="mb-3">
+              <%= form.label :colour, "Colores", class: "form-label" %>
+              <% Colour.all.each do |colour| %>
+                <div class="form-check">
+                  <%= check_box_tag 'color[]', colour.id, params[:color]&.include?(colour.id.to_s), class: 'form-check-input', id: "#{colour.name}Color" %>
+                  <%= label_tag "#{colour.name}Color", colour.name, class: 'form-check-label' %>
                 </div>
               <% end %>
             </div>

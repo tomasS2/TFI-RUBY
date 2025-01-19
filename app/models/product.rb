@@ -90,7 +90,12 @@ class Product < ApplicationRecord
   def self.search_filter(query)
     return where("name LIKE ? OR description LIKE ?", "%#{query}%", "%#{query}%")
   end
+  
   def self.category_filter(subcategories_ids)
     return where(category_id: subcategories_ids)
+  end
+  
+  def self.colour_filter(colours_id)
+    return where(colour_id: colours_id)
   end
 end

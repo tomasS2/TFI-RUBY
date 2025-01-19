@@ -32,7 +32,7 @@ Rails.application.routes.draw do
       patch :soft_delete
     end
   end
-  get 'product_category/:primary_category_id', to: 'products#index', as: 'filter_by_category'
+  get 'product_category/:primary_category_id', to: 'products#index', as: 'filter_by_checkbox'
   get 'products/search', to: 'products#index', as: 'search_products'
 
   resource :cart, only: [:show] do

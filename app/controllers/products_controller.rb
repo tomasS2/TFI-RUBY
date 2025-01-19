@@ -19,8 +19,8 @@ class ProductsController < ApplicationController
         @products = @products.category_filter(params[:category])
       end
 
-      if params[:colour].present?
-        @products = @products.colour_filter(params[:category])
+      if params[:color].present?
+        @products = @products.colour_filter(params[:color])
       end
       
       if params[:primary_category_id].present?
