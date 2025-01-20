@@ -12,10 +12,8 @@ Rails.application.routes.draw do
   devise_scope :user do
     get 'users/sign_out' => "devise/sessions#destroy"
   end
-  devise_for :users, only: [:sessions, :registrations, :passwords], controllers: {
-    registrations: 'users/registrations',
+  devise_for :users, only: [:sessions], controllers: {
     sessions: 'users/sessions', 
-    passwords: 'users/passwords', 
   }
 
   
