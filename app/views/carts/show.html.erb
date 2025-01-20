@@ -32,8 +32,8 @@
           <tr>
             <td><%= cart_item.product.name %></td>
             <td><%= cart_item.quantity %></td>
-            <td><%= number_to_currency(cart_item.product.price) %></td>
-            <td><%= number_to_currency(cart_item.price) %></td>
+            <td><%= number_to_currency(cart_item.product.price, precision: 0) %></td>
+            <td><%= number_to_currency(cart_item.price, precision: 0) %></td>
             <td>
               <%= button_to 'Eliminar del carrito', cart_item, method: :delete, class: 'btn btn-danger' %>
             </td>
@@ -43,7 +43,7 @@
     </table>
 
     <div class="total">
-      <p>Total: <%= number_to_currency(@cart.total_price) %></p>
+      <p>Total: <%= number_to_currency(@cart.total_price, precision: 0) %></p>
       <%= button_tag 'Confirmar Compra', class: 'btn btn-success', data: { bs_toggle: 'modal', bs_target: '#clientModal' } %>
     </div>
 

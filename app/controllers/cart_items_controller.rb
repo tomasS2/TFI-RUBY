@@ -1,6 +1,7 @@
 class CartItemsController < ApplicationController
     before_action :set_cart_item, only: %i[ destroy ]
-    
+    before_action :authenticate_user! 
+
     
     def destroy
         @cart_item.destroy!

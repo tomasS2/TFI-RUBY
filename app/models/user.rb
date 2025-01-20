@@ -8,6 +8,7 @@ class User < ApplicationRecord
   validates :phone_number, presence: { message: "El campo de número de teléfono no puede estar vacío" }
   validates :phone_number, format: { with: /\A\+\d{1,4}\d{1,10}\z/, message: "El número de teléfono no cumple con el formato" }, unless: -> { phone_number.blank? }
   has_one :cart, dependent: :destroy
+  validates :username, format: { with: /\A[a-zA-Z\s]+\z/, message: "El nombre de usuario solo puede contener letras y espacios" }, if: -> { username.present? }
 
   def add_selected_roles(roles_from_form)
     if !roles_from_form.blank?

@@ -44,7 +44,7 @@ class Sale < ApplicationRecord
         cart.cart_items.each do |cart_item|
           size_id = cart_item.size_id.nil? ? nil : cart_item.size_id
           unless cart_item.product.has_stock(cart_item.quantity, size_id)
-            raise "No hay suficiente stock del producto #{cart_item.product.name}. No se pudo completar la venta."
+            raise "No hay suficiente stock del producto #{cart_item.product.name}. No se pudo completar la compra."
           end
           sale.sale_items.create!(product: cart_item.product, quantity: cart_item.quantity, price: cart_item.price, size_id: size_id)
           if size_id.nil?
@@ -59,7 +59,11 @@ class Sale < ApplicationRecord
         return { success: true, sale: sale }
       end
     rescue => e
-      return { success: false, message: "Ocurrió un error al intentar confirmar la venta. Elimine los productos del carrito e inténtelo de nuevo." }
+      if e.message.include?("No hay suficiente stock")
+        return { success: false, message: e.message }
+      else
+        return { success: false, message: "Ocurrió un error al intentar confirmar la compra. Elimine los productos del carrito e inténtelo de nuevo." }
+      end
     end
   end
 end
