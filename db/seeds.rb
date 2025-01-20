@@ -66,19 +66,6 @@ employee_user.add_role(:employee)
 employee_user.save!
 
 
-puts "Creando Superusuario"
-
-super_user = User.new(
-    email: 'super@super.com',
-    password: '123123',
-    username: 'super',
-    phone_number: '+542219944345',
-)
-super_user.add_role(:admin)  
-super_user.add_role(:manager)  
-super_user.add_role(:employee)  
-super_user.save!
-
 puts "Usuarios y roles creados"
 
 
