@@ -45,7 +45,7 @@
                       <%= fields_for "product[product_sizes][]", ProductSize.new(size_id: size.id) do |ps| %>
                         <%= ps.hidden_field :size_id, value: size.id %>
                         <%= ps.label :product_size_stock, "Talle #{size.size_value}", class: "form-label" %>
-                        <%= ps.number_field :product_size_stock, min: 0, class: "form-control form-control-sm", placeholder: "Ingrese el stock" %>
+                        <%= ps.number_field :product_size_stock, min: 0, class: "form-control form-control-sm", placeholder: "Ingrese el stock",  data: { product_create_target: "sizeStock", action: "keydown->product-create#preventNegativeSignOnKeydown" } %>
                       <% end %>
                     </div>
                   <% end %>

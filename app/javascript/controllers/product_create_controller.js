@@ -1,10 +1,13 @@
-import { Controller } from "@hotwired/stimulus"
+import { Controller } from "@hotwired/stimulus";
+
 export default class extends Controller {
-  static targets = ["stock", "sizesContainer"];
+  static targets = ["stock", "sizesContainer", "sizeStock"];
+
   connect() {
     this.toggleSizesVisibility();
-    //console.log("me vinculééééée")
+    this.preventNegativeSignOnKeydown();
   }
+
   toggleSizesVisibility() {
     if (this.stockTarget.value && this.stockTarget.value >= 0) {
       this.sizesContainerTarget.style.display = "none"; 
@@ -12,7 +15,24 @@ export default class extends Controller {
       this.sizesContainerTarget.style.display = "block"; 
     }
   }
-  updateStock() {
+
+  updateStock(event) {
     this.toggleSizesVisibility();
+  }
+
+  preventNegativeSignOnKeydown() {
+    this.stockTarget.addEventListener("keydown", (event) => {
+      if (event.key === "-" || event.key === "e" || event.key === "E") {
+        event.preventDefault();  
+      }
+    });
+
+    this.sizeStockTargets.forEach((sizeStock) => {
+      sizeStock.addEventListener("keydown", (event) => {
+        if (event.key === "-" || event.key === "e" || event.key === "E") {
+          event.preventDefault();
+        }
+      });
+    });
   }
 }

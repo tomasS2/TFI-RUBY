@@ -7,7 +7,6 @@
           <div class="card-body p-3 p-md-4">
             <h3 class="mb-4 pb-2 pb-md-0 mb-md-4">Editar producto</h3>
             <div data-controller="product-create">
-
               <%= form_for(@product, url: product_path, method: :put) do |form| %>
                 <% if @product.errors.any? %>
                   <div>
@@ -16,7 +15,7 @@
                     <% end %>
                   </div>
                 <% end %>
-
+              
                 <div class="form-outline mb-3">
                   <%= form.label :name, "Nombre", class: "form-label" %>
                   <%= form.text_field :name, class: "form-control form-control-sm" %>
@@ -26,7 +25,7 @@
                   <%= form.label :description, "Descripción", class: "form-label" %>
                   <%= form.text_field :description, class: "form-control form-control-sm" %>
                 </div>
-
+              
                 <div class="form-outline mb-3">
                   <%= form.label :price, "Precio", class: "form-label" %>
                   <%= form.text_field :price, class: "form-control form-control-sm" %>
@@ -44,42 +43,45 @@
                       <%= fields_for "product[product_sizes_attributes][]", product_size do |ps| %>
                         <%= ps.hidden_field :size_id, value: product_size.size_id %>
                         <%= ps.label :product_size_stock, "Talle #{product_size.size.size_value}", class: "form-label" %>
-                        <%= ps.number_field :product_size_stock, min: 0, class: "form-control form-control-sm", placeholder: "Ingrese el stock", value: product_size.product_size_stock %>
+                        <%= ps.number_field :product_size_stock, min: 0, class: "form-control form-control-sm", placeholder: "Ingrese el stock", value: product_size.product_size_stock, data: { product_create_target: "sizeStock", action: "keydown->product-create#preventNegativeSignOnKeydown" } %>
                       <% end %>
                     </div>
                   <% end %>
+              
                   <% Size.all.each do |size| %>
                     <% unless @product.product_sizes.exists?(size_id: size.id) %>
                       <div class="form-group mb-3">
                         <%= fields_for "product[product_sizes_attributes][]", ProductSize.new(size_id: size.id) do |ps| %>
                           <%= ps.hidden_field :size_id, value: size.id %>
                           <%= ps.label :product_size_stock, "Talle #{size.size_value}", class: "form-label" %>
-                          <%= ps.number_field :product_size_stock, min: 0, class: "form-control form-control-sm", placeholder: "Ingrese el stock" %>
+                          <%= ps.number_field :product_size_stock, min: 0, class: "form-control form-control-sm", placeholder: "Ingrese el stock", data: { product_create_target: "sizeStock", action: "keydown->product-create#preventNegativeSignOnKeydown" } %>
                         <% end %>
                       </div>
                     <% end %>
                   <% end %>
                 </div>
+
                 <div class="form-outline mb-3">
                   <%= form.label :colour_id, "Color", class: "form-label" %>
                   <%= form.select :colour_id, @colours.map { |colour| [colour.name, colour.id] }, { prompt: "Selecciona un color" }, class: "form-select" %>
                 </div>
-
+              
                 <div class="form-outline mb-3">
                   <%= form.label :category_id, "Categoría", class: "form-label" %>
                   <%= form.select :category_id, @categories.map { |category| [category.category_name, category.id] }, { prompt: "Selecciona una categoría" }, class: "form-select" %>
                 </div>
-
+              
                 <div class="form-group mb-3">
                   <%= form.label :images, "Subir imagen", class: "form-label" %>
                   <%= form.file_field :images, multiple: true, accept: "image/*", class: "form-control" %>
                 </div>
-
+              
                 <div class="mt-3 pt-2 d-flex justify-content-between">
                   <%= link_to "Volver a los productos", index_administration_products_path, class: "btn btn-secondary btn-sm w-20" %>
                   <%= form.submit "Guardar", class: "btn btn-primary btn-sm w-20" %>
                 </div>
               <% end %>
+              
             </div>
           </div>
         </div>
