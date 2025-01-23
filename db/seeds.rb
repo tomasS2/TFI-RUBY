@@ -115,11 +115,16 @@ categoria_accesorios = Category.new(
 )
 categoria_accesorios.save(validate: false)
 
+puts "Creando subcategorías"
 #subcategorías 
-categoria_pantalon_buzo = Category.create!(
+categoria_pantalon_buzo = Category.new(
     category_name: "Pantalón de buzo",
     parent_id: categoria_pantalon.id,
 )
+#si no lo guardo así, me tira error por la tilde
+categoria_pantalon_buzo.save(validate: false)
+
+
 categoria_camiseta = Category.create!(
     category_name: "Camiseta",
     parent_id: categoria_remera.id,
