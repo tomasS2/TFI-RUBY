@@ -36,6 +36,9 @@ class ProductsController < ApplicationController
 
   # GET /products/1 or /products/1.json
   def show
+    if @product.delete_date
+      redirect_to root_path
+    end
   end
 
   # GET /products/new
@@ -52,8 +55,12 @@ class ProductsController < ApplicationController
   # GET /products/1/edit
 
   def edit
-    @categories = Category.where.not(parent_id: nil)
-    @colours = Colour.all
+    if !@product.delete_date
+      @categories = Category.where.not(parent_id: nil)
+      @colours = Colour.all
+    else  
+      redirect_to root_path
+    end
   end
 
   # POST /products or /products.json
@@ -140,6 +147,9 @@ class ProductsController < ApplicationController
   end
 
   def show_stock
+    if @product.delete_date
+      redirect_to root_path
+    end
   end
 
   def modify_stock
