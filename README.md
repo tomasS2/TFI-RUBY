@@ -63,3 +63,5 @@ Para la realización del trabajo se utilizaron las siguientes dependencias:
 La aplicación cuenta con varios botones bastantes descriptivos que le facilitarán al usuario su uso. Puede notar, ni bien inicia la aplicación, que el boton de 'Iniciar sesión' se encuentra arriba a la izquierda de la pantalla, en la barra de navegación. Así como también los distintos botones que llevan a las pestañas donde se encuentran los productos registrados en el sistema. 
 
 Una vez logueado, puede acceder a todo el repertorio de funcionalidades que brinda el sistema como, por ejemplo, registrar un nuevo usuario, un nuevo producto o agregar un producto al carrito para luego consumar una venta.
+
+Cuando se inicia la aplicación por primera vez, puede ocurrir un error por un tema de archivos temporales. Con presionar CTRL + F5 se soluciona y no vuevle a ocurrir más.
