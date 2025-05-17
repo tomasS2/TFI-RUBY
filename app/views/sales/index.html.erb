@@ -17,7 +17,7 @@
             <th scope="col">Fecha</th>
             <th scope="col">Total</th>
             <th scope="col">Cliente</th>
-            <th scope="col">Empleado</th>
+            <th scope="col">Empleado efector de la compra</th>
             <th scope="col">Estado</th>
             <th scope="col">Acciones</th>
           </tr>
@@ -29,7 +29,7 @@
               <td><%= sale.created_at.strftime("%d-%m-%Y %H:%M") %></td>
               <td><%= sale.total %></td>
               <td><%= sale.client %></td>
-              <td><%= User.find(sale.user_id)&.username %></td>
+              <td><%= sale.user&.username || "Realizada por usuario público" %></td>
               <% if sale.status == 'done' %>
                 <td style="color: green">Realizada</td>
               <% else %>

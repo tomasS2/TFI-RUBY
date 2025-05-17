@@ -1,6 +1,5 @@
 class CartItemsController < ApplicationController
     before_action :set_cart_item, only: %i[ destroy ]
-    before_action :authenticate_user! 
 
     
     def destroy
@@ -15,8 +14,12 @@ class CartItemsController < ApplicationController
         @cart_item = CartItem.find(params[:id])
         new_quantity = params[:quantity].to_i
         if @cart_item.product.has_stock(new_quantity, @cart_item.size_id)
-            current_user.cart.save_cart_item(@cart_item.product, new_quantity, @cart_item.size_id)
-          
+            if current_user
+                current_user.cart.save_cart_item(@cart_item.product, new_quantity, @cart_item.size_id)
+            else
+                cart = Cart.find(session[:cart])
+                cart.save_cart_item(@cart_item.product, new_quantity, @cart_item.size_id)
+            end
             redirect_to cart_path, notice: "Cantidad actualizada correctamente."
         else
             redirect_to cart_path, alert: "No se pudo actualizar la cantidad"

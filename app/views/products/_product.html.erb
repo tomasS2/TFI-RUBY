@@ -64,7 +64,6 @@
         <p><strong>Stock:</strong> <%= product.stock || 'No disponible' %></p>
       <% end %>
               
-      <% if current_user %>
         <% if !(@product.stock.blank? && !@product.product_sizes.any?) %>
           <%= form_with url: add_item_cart_path, method: :post, local: true do |f| %>
             <%= f.hidden_field :product_id, value: product.id %>
@@ -90,7 +89,6 @@
             <%= f.submit "Añadir al carrito", class: "btn btn-primary mt-3" %>
           <% end %>
         <% end %>
-      <% end %>
 
     </div>
   </div>

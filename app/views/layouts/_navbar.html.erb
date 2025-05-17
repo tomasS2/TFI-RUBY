@@ -53,12 +53,12 @@
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="<%= destroy_user_session_path %>" role="button">Cerrar sesión</a>
                     </div>
-                    <%= link_to cart_path, class: 'ms-3' do %>
-                        <%= image_tag('carrito.png', alt: 'Carrito', width: '30', height: '30') %>
-                    <% end %>
                 </div>
             <% else %>
                 <a class="btn btn-primary ms-3 shadow-sm" href="<%= new_user_session_path %>" role="button">Iniciar sesión</a>
+                <%= link_to cart_path, class: 'ms-3' do %>
+                        <%= image_tag('carrito.png', alt: 'Carrito', width: '30', height: '30') %>
+                <% end %>
             <% end %>
         </div>
     </div>

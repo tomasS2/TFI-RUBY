@@ -1,6 +1,5 @@
 class CartsController < ApplicationController
     before_action :set_cart, only: %i[ add_item show ]
-    before_action :authenticate_user! 
 
     def add_item()
         product = Product.find(params[:product_id])
@@ -19,8 +18,13 @@ class CartsController < ApplicationController
     end
 
     def clear_cart
-        current_user.cart.cart_items.destroy_all
+        if current_user
+            current_user.cart.cart_items.destroy_all
+        else
+            cart = Cart.find(session[:cart])
+            cart.cart_items.destroy_all
         redirect_to cart_path, notice: "El carrito ha sido vaciado."
+        end
     end
 
     def show() 
@@ -28,10 +32,10 @@ class CartsController < ApplicationController
 
     private 
     def set_cart
-        if !current_user
-            redirect_to root_path
-        else
+        if current_user
             @cart = current_user.cart || current_user.create_cart
+        else
+            @cart = Cart.find_or_create_from_session(session)
         end
     end
 end

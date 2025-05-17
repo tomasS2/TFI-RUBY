@@ -1,5 +1,5 @@
 class Sale < ApplicationRecord
-  belongs_to :user 
+  belongs_to :user, optional: true
   has_many :sale_items, dependent: :destroy
   has_many :products, through: :sale_items 
   validates :client, presence: true
