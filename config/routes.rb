@@ -35,6 +35,7 @@ Rails.application.routes.draw do
 
   resource :cart, only: [:show] do
     post 'add_item', to: 'carts#add_item', as: 'add_item'
+    delete 'clear_cart', to: 'carts#clear_cart', as: 'clear_cart'
   end
 
   resources :cart_items, only: [:destroy]

@@ -18,6 +18,11 @@ class CartsController < ApplicationController
         end
     end
 
+    def clear_cart
+        current_user.cart.cart_items.destroy_all
+        redirect_to cart_path, notice: "El carrito ha sido vaciado."
+    end
+
     def show() 
     end
 
