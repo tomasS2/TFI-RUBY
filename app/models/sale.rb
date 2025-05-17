@@ -4,6 +4,9 @@ class Sale < ApplicationRecord
   has_many :products, through: :sale_items 
   validates :client, presence: true
   validates :client, format: { with: /\A[a-zA-Z\s]+\z/, message: "El nombre solo puede contener letras y espacios" }, if: -> { client.present? }
+  validates :client_email, presence: { message: "El campo del email no puede estar vacío" }
+  validates :client_email, format: { with: URI::MailTo::EMAIL_REGEXP, message: "Formato de email inválido" }
+  validates :client_phone, format: { with: /\A\+\d{1,4}\d{1,10}\z/, message: "El número de teléfono no cumple con el formato" }, unless: -> { client_phone.blank? }
 
 
 
@@ -31,8 +34,8 @@ class Sale < ApplicationRecord
   end
   
   
-  def self.create_sale(cart, client)
-    sale = Sale.new(user: cart.user, total: cart.total_price(), client: client)
+  def self.create_sale(cart, client, client_email, client_phone)
+    sale = Sale.new(user: cart.user, total: cart.total_price(), client: client, client_email: client_email, client_phone: client_phone)
     unless sale.valid?
       return { success: false, message: sale.errors.full_messages.join(", ") }
     end

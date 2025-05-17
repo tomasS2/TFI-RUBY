@@ -58,14 +58,20 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="clientModalLabel">Ingresa el nombre del cliente</h5>
+            <h5 class="modal-title" id="clientModalLabel">Información del cliente</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
             <%= form_with url: sales_path, method: :post, local: true do |form| %>
               <div class="mb-3">
-                <%= form.label :client, "Nombre del cliente:" %>
+                <%= form.label :client, "Nombre:" %>
                 <%= form.text_field :client, class: 'form-control', placeholder: 'Escribe el nombre' %>
+                <%= form.label :client_email, "Email:" %>
+                <%= form.email_field :client_email, class: 'form-control', placeholder: 'Escribe el email' %>
+                <%= form.label :client_phone, "Teléfono (sin espacios):" %>
+                <%= form.text_field :client_phone, class: 'form-control', placeholder: 'Ej: +542219914845' %>
+                <%= form.label :client_card, "Número de tarjeta:" %>
+                <%= form.text_field :client_card, class: 'form-control', placeholder: 'XXXX-XXXX-XXXX-XXXX' %>
               </div>
               <div class="mb-3">
                 <%= form.submit "Confirmar Compra", class: 'btn btn-success w-100' %>

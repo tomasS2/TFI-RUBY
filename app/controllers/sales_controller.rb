@@ -1,7 +1,7 @@
 class SalesController < ApplicationController
   before_action :set_sale, only: %i[ show edit update destroy show_products cancel]
   before_action :set_cart, only: %i[ create ]
-  before_action :authenticate_user!, only: %i[ edit update destroy index ] 
+  before_action :authenticate_user!, only: %i[ new edit update destroy index ] 
 
   # GET /sales or /sales.json
   def index
@@ -23,7 +23,11 @@ class SalesController < ApplicationController
 
   # POST /sales or /sales.json
   def create
-    response = Sale.create_sale(@cart, params[:client])
+    unless valid_card_number?(params[:client_card])
+      flash[:alert] = "Debe ingresar un número de tarjeta con 16 dígitos"
+      redirect_to cart_path and return
+    end
+    response = Sale.create_sale(@cart, params[:client], params[:client_email], params[:client_phone].presence || nil)
     if response[:success]
       if current_user
         flash[:notice] = "Venta realizada existosamente"
@@ -89,4 +93,9 @@ class SalesController < ApplicationController
   def sale_params
     params.fetch(:sale, {})
   end
+
+  def valid_card_number?(numero_tarjeta)
+    numero_tarjeta.present? && numero_tarjeta =~ /\A\d{16}\z/
+  end
+
 end
