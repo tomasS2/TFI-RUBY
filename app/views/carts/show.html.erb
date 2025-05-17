@@ -31,7 +31,13 @@
         <% @cart.cart_items.each do |cart_item| %>
           <tr>
             <td><%= cart_item.product.name %></td>
-            <td><%= cart_item.quantity %></td>
+            <td>
+              <div class="d-flex align-items-center">
+              <%= button_to '–', cart_item_path(cart_item, quantity: -1), method: :patch, class: 'btn btn-secondary btn-sm' if cart_item.quantity > 1 %>
+              <span class="mx-2"><%= cart_item.quantity %></span>
+              <%= button_to '+', cart_item_path(cart_item, quantity: 1), method: :patch, class: 'btn btn-secondary btn-sm' %>
+              </div>
+            </td>
             <td><%= number_to_currency(cart_item.product.price, precision: 0) %></td>
             <td><%= number_to_currency(cart_item.price, precision: 0) %></td>
             <td>

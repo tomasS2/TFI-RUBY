@@ -38,7 +38,7 @@ Rails.application.routes.draw do
     delete 'clear_cart', to: 'carts#clear_cart', as: 'clear_cart'
   end
 
-  resources :cart_items, only: [:destroy]
+  resources :cart_items, only: [:destroy, :update]
 
   resources :sales do 
     member do
